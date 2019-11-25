@@ -65,9 +65,9 @@ EXTENSIONS = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'oer_scrapy.pipelines.OerScrapyPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'oer_scrapy.pipelines.OerScrapyPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
