@@ -1,5 +1,5 @@
 from scrapy.spiders import SitemapSpider
-from oer_scrapy.items import OerScrapyItem, ItemLoader
+from oer_scrapy.items import OerScrapyItem, ItemLoader, OerScrapyItemLoader
 from datetime import datetime
 from w3lib.html import remove_tags, replace_escape_chars
 
@@ -16,10 +16,16 @@ class HoouSpider(SitemapSpider):
   def parse_projects(self, response):
     now = datetime.now()
 
-    il = ItemLoader(item=OerScrapyItem(), selector=response)
+    # if statements einfügen, falls Feld leer ist --> siehe Author field
+
+    il = OerScrapyItemLoader(selector=response)
     il.add_xpath('name', '//meta[@property="title"]/@content')
     il.add_xpath('about', '//meta[@property="description"]/@content')
-    il.add_xpath('author', '(//tr/td[2])[3]')
+
+    if il.add_xpath('author', '(//tr/td[2])[3]') is None:
+      print("Author is none")
+      il.add_value('author', '')
+
     il.add_xpath('publisher', '(//tr/td[2])[4]')
     il.add_xpath('inLanguage', '(//tr/td[2])[5]')
     il.add_xpath('accessibilityAPI', '(//tr/td[2])[6]')
@@ -35,7 +41,6 @@ class HoouSpider(SitemapSpider):
     il.add_xpath('targetName', '(//tr/td[2])[16]')
     il.add_xpath('targetURL', '(//tr/td[2])[17]')
     il.add_xpath('educationalUse', '(//tr/td[2])[18]')
-    il.add_xpath('accessibilityFeature', '(//tr/td[2])[20]')
     il.add_xpath('typicalAgeRange', '(//tr/td[2])[21]')
     il.add_xpath('interactivityType', '(//tr/td[2])[22]')
     il.add_xpath('learningResourceType', '(//tr/td[2])[23]')

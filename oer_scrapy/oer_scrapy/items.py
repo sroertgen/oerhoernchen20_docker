@@ -20,93 +20,45 @@ def replace_processor(value):
 
 class OerScrapyItem(scrapy.Item):
     # LRMI fields
-    name = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    about = scrapy.Field(
-        input_processor = MapCompose(replace_processor)
-    )
-    author = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    publisher = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    inLanguage = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    accessibilityAPI = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    accessibilityControl= scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    accessibilityFeature= scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    accessibilityHazard = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    license = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    timeRequired = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    educationalRole = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    alignmentType = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    educationalFramework = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    targetDescription = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    targetName = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    targetURL = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    educationalUse = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    typicalAgeRange = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    interactivityType = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    learningResourceType = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    isBasedOnUrl = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
+    name = scrapy.Field()
+    about = scrapy.Field()
+    author = scrapy.Field()
+    publisher = scrapy.Field()
+    inLanguage = scrapy.Field()
+    accessibilityAPI = scrapy.Field()
+    accessibilityControl= scrapy.Field()
+    accessibilityFeature= scrapy.Field()
+    accessibilityHazard = scrapy.Field()
+    license = scrapy.Field()
+    timeRequired = scrapy.Field()
+    educationalRole = scrapy.Field()
+    alignmentType = scrapy.Field()
+    educationalFramework = scrapy.Field()
+    targetDescription = scrapy.Field()
+    targetName = scrapy.Field()
+    targetURL = scrapy.Field()
+    educationalUse = scrapy.Field()
+    typicalAgeRange = scrapy.Field()
+    interactivityType = scrapy.Field()
+    learningResourceType = scrapy.Field()
+    isBasedOnUrl = scrapy.Field()
+
     # additional field
-    date_published = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
+    date_published = scrapy.Field()
 
     # scrape related fields
-    url = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    thumbnail = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
-    tags = scrapy.Field(
-        input_processor=MapCompose(replace_processor)
-    )
+    url = scrapy.Field()
+    thumbnail = scrapy.Field()
+    tags = scrapy.Field()
     project = scrapy.Field()
     source = scrapy.Field()
     spider = scrapy.Field()
     date_scraped = scrapy.Field()
 
-# class MyItemLoader(ItemLoader):
-#     name_in = replace_processor
-#     about_in = replace_processor
-#     accessibilityAPI_in = replace_processor
+
+class OerScrapyItemLoader(ItemLoader):
+    default_item_class = OerScrapyItem
+    default_input_processor = MapCompose(replace_processor)
+
+    # noch Kommata  einfügen
+    default_output_processor = Join()

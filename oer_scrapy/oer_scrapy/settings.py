@@ -66,7 +66,10 @@ EXTENSIONS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'oer_scrapy.pipelines.OerScrapyPipeline': 300,
+  #  'oer_scrapy.pipelines.OerScrapyPipeline': 300,
+  #  'oer_scrapy.pipelines.JsonWriterPipeline': 300,
+    'oer_scrapy.pipelines.MySqlPipeline': 300,
+
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
