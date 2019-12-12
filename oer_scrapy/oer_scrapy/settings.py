@@ -67,7 +67,9 @@ EXTENSIONS = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
   #  'oer_scrapy.pipelines.OerScrapyPipeline': 300,
-  #  'oer_scrapy.pipelines.JsonWriterPipeline': 300,
+    'oer_scrapy.pipelines.NormLicensePipeline': 200,
+    'oer_scrapy.pipelines.JoinLongWhiteSpaceStringsPipeline': 250,
+    # 'oer_scrapy.pipelines.TagPipeline': 260,
     'oer_scrapy.pipelines.MySqlPipeline': 300,
 
 }

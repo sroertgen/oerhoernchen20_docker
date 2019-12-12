@@ -8,7 +8,12 @@
 		},
 		{
 			"path": "/Users/steffenroertgen/gwdg_owncloud/coding/udemy-docker-mastery"
+		},
+		{
+			"path": "/Users/steffenroertgen/gwdg_owncloud/coding/docker-edu-sharing"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "oerhoernchen_python"
+	}
 }

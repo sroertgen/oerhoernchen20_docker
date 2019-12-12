@@ -1,0 +1,89 @@
+version: "3.7"
+
+services:
+  elasticsearch:
+    image: elasticsearch:7.4.2
+    environment:
+      - "discovery.type=single-node"
+      - http.port=9200
+      - http.cors.enabled=true
+      # TODO http.cors.allow-origin: "http://reactive-search-app-domain.com:port" <-- evtl noch anpassen (https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html)
+      - http.cors.allow-origin=http://localhost:1358,http://127.0.0.1:1358,http://localhost:8080,http://localhost:80,http://localhost
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization, Access-Control-Allow-Headers, Accept
+      - http.cors.allow-credentials=true
+      - bootstrap.memory_lock=true
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+    networks:
+      - elasticnet
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: kibana:7.4.2
+    networks:
+      - elasticnet
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  mysql:
+    build:
+      context: ./mysql
+      dockerfile: mysql.Dockerfile
+    environment:
+    - "MYSQL_ROOT_PASSWORD=my-secret-pw"
+    - "MYSQL_DATABASE=oerhoernchen_db"
+    - "MYSQL_USER=oerhoernchen"
+    - "MYSQL_PASSWORD=oerhoernchenpw"
+    networks: 
+      - elasticnet
+    ports:
+      - "3306:3306"
+    restart: always
+
+  logstash:
+    build:
+      context: ./logstash_mysql
+      dockerfile: logstash_mysql.Dockerfile
+    ports:
+      - "5001:5001"
+      - "5044:5044"
+      - "9600:9600"
+    networks:
+      - elasticnet
+    depends_on:
+      - elasticsearch
+      - mysql
+      - kibana
+
+  indexer:
+    build:
+      context: ./indexer
+      dockerfile: indexer.Dockerfile
+    depends_on:
+      - elasticsearch
+    networks:
+      - elasticnet
+    deploy:
+      restart_policy:
+        condition: none
+        delay: 60s
+    restart: on-failure
+
+  vue_hoernchen:
+    build:
+      context: ./vue_hoernchen
+      dockerfile: vue_hoernchen.Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - elasticnet
+    depends_on:
+      - elasticsearch
+      - mysql
+      - kibana
+
+networks:
+  elasticnet:
