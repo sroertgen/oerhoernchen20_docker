@@ -35,7 +35,7 @@ class NormLicensePipeline(object):
         if any(x in item["license"].lower() for x in ["0", "public domain"]):
             item["license"] = "CC 0"
             return item
-        elif "sa" and not "nc" in item["license"].lower():
+        elif all(x in item['license'].lower() for x in ["sa", "by"]) and not "nc" in item["license"].lower():
             item["license"] = "CC BY-SA"
             return item
         elif any(x in item['license'].lower() for x in ["sa", "nd", "nc"]) == False:
