@@ -7,6 +7,7 @@
 
 <b-container fluid class="">
 <h1 style="text-align:center">🐿️ Docker-hOERnchen 👋</h1>
+<span> <a href="https://github.com/sroertgen/oerhoernchen20_docker" target="_blank">--> Hier geht's zum GitHub-Repo</a></span>
 
   <b-row class="text-center">
     <b-col xs="12" sm="12" md="3" lg="3" class="order-md-first order-lg-first">
