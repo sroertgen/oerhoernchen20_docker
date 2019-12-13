@@ -1,4 +1,4 @@
-# Docker-Hoernchen
+# Docker-Hoernchen 2.0
 
 This project is a dockerized version of the [oerhoernchen20](https://github.com/programmieraffe/oerhoernchen20) made by [Matthias Andrasch](https://twitter.com/m_andrasch). 
 It tries to combine the central OER search engine approach proprosed by Matthias with the [personalized search engine](https://ebildungslabor.de/blog/oersuchtool/) approach proposed by [Nele Hirsch](https://twitter.com/eBildungslabor) as it is also possible to insert ones own data to the search engines index.
