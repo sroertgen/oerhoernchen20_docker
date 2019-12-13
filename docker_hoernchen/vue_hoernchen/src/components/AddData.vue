@@ -24,11 +24,23 @@
               rows="3"
               v-model="entry.about"></b-form-textarea>
           </b-form-group>
+
+          <b-form-group
+            label="Url:"
+            label-for="url"
+            >
+            <b-form-input id="url" v-model="entry.url"></b-form-input>
+          </b-form-group>
+
+          <b-form-select v-model="entry.license" :options="options" size="sm" class="mt-3"></b-form-select>
+
         </b-form-group>
     
     <hr>
     <p>Titel: {{entry.name}}</p>
     <p style="white-space: pre">Beschreibung: {{entry.about}}</p>
+    <p>Url: {{entry.url}}</p>
+    <div class="mt-3">Lizenz: {{ entry.license }}</div>
 
     <button @click="postData">URL zu Index "Mein Index" hinzufügen</button>
   </b-card>
@@ -55,7 +67,7 @@ export default {
         accessibilityControl: '',
         accessibilityFeature: '',
         accessibilityHazard: '',
-        license: '',
+        license: null,
         timeRequired: '',
         educationalRole: '',
         alignmentType: '',
@@ -76,7 +88,15 @@ export default {
         source : 'Mein Index',
         spider : '',
         date_scraped : '',
-      }
+      },
+      options: [
+          { value: null, text: 'Bitte eine Lizenz auswählen' },
+          { value: 'CC 0', text: 'CC 0' },
+          { value: 'CC BY', text: 'CC BY' },
+          { value: 'CC BY-SA', text: 'CC BY-SA' },
+          { value: 'CC BY-SA-NC', text: 'CC BY-SA-NC' },
+          { value: 'CC BY-ND', text: 'CC BY-ND' },
+        ]
     };
   },
   methods: {
