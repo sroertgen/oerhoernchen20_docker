@@ -5,6 +5,9 @@
     componentId="SearchResult"
     dataField="name.keyword"
     :showResultStats="true"
+    :pagination="false"
+    :pages="5"
+    :size="10"
     className="result-list-container"
     loader="Lade Ergebnisse..."
     :react="{and: [
@@ -86,4 +89,5 @@ export default {
         }
   }
 }
+
 </script>
