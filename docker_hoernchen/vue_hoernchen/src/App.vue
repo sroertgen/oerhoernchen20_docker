@@ -2,7 +2,8 @@
   <div id="app">
 
   <app-search-app></app-search-app>
-  
+  <button onclick="topFunction()" id="myBtn" title="Go to top"><font-awesome-icon icon="arrow-circle-up" /></button>
+
 </div>
 </template>
 

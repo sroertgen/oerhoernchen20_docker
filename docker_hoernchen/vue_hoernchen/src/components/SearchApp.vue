@@ -45,7 +45,6 @@
 
 <!-- End -->
 </reactive-base>
-<button onclick="topFunction()" id="myBtn" title="Go to top"><font-awesome-icon icon="arrow-circle-up" /></button>
 </div>
 </template>
 
@@ -80,5 +79,5 @@ import ShowResults from './ShowResults'
         this.key = key;
         }
     }
-	};
+  };
 </script>
