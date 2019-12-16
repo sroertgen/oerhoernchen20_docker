@@ -108,7 +108,7 @@ export default {
     },
     postData: function() {
       console.log(this.entry);
-      this.$http.post('http://localhost:9200/mein_index/_doc', this.entry)
+      this.$http.post('http://127.0.0.1:9200/mein_index/_doc', this.entry)
         .then(response => {
           console.log(response);
         }, error => {
@@ -126,4 +126,3 @@ div {
     text-align: left;
   }
 </style>
-<!-- curl -H "Content-Type:application/json" -XPOST localhost:9200/mein_index/_doc/ -d '{"title":"Test2"}'

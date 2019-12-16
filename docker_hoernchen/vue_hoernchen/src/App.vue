@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-
+  <app-fork-me></app-fork-me>
   <app-search-app></app-search-app>
   <button onclick="topFunction()" id="myBtn" title="Go to top"><font-awesome-icon icon="arrow-circle-up" /></button>
 
@@ -9,11 +9,13 @@
 
 <script>
 import SearchApp from './components/SearchApp'
+import ForkMe from './components/ForkMe'
 
 export default {
 		name: 'App',
     components: {
-      'app-search-app': SearchApp
+      'app-search-app': SearchApp,
+      'app-fork-me': ForkMe
     }
 }
 </script>
