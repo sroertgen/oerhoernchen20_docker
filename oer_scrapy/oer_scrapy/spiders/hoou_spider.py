@@ -11,21 +11,22 @@ class HoouSpider(SitemapSpider):
     ('/projects/', 'parse_projects'),
     ('/materials/', 'parse_projects')]  
 
-# TODO insert tags and about
-
   def parse_projects(self, response):
     now = datetime.now()
 
     # if statements einfügen, falls Feld leer ist --> siehe Author field
 
     il = OerScrapyItemLoader(selector=response)
-    il.add_xpath('name', '//meta[@property="title"]/@content')
+    if il.add_xpath('name', '//meta[@property="title"]/@content') is None:
+      print("No title provided, skipping..." )
 
-    il.add_xpath('about', '//meta[@property="description"]/@content')
+    if il.add_xpath('about', '//meta[@property="description"]/@content') is None:
+      print("No description provided, skipping...")
 
-    if il.add_xpath('author', '(//tr/td[2])[3]') is None:
+    if il.add_xpath('author', '(//tr/td[2])[3]') is "":
       print("Author is none")
-      il.add_value('author', '')
+      il.add_value('author', 'keine Autorin angegeben')
+
 
     if il.add_xpath('publisher', '(//tr/td[2])[4]') is None:
       il.add_value('publisher', '')
@@ -100,8 +101,3 @@ class HoouSpider(SitemapSpider):
 
 
 # ' [text()[contains(.,'ABC')]]'
-
-# import hashlib 
-#    string_to_hash = '123' 
-#    hash_object = hashlib.sha256(str(string_to_hash).encode('utf-8')) 
-#    print('Hash', hash_object.hexdigest())            
