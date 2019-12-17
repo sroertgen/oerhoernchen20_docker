@@ -79,71 +79,41 @@ class MySqlPipeline(object):
 
     def create_table(self, spider_name):
         if spider_name == 'hoou_spider':
-            self.curr.execute("""DROP TABLE IF EXISTS hoou_tb""")
-            self.curr.execute("""create table hoou_tb(
-                name text,
-                about text,
-                author text,
-                publisher text,
-                inLanguage text,
-                accessibilityAPI text,
-                accessibilityControl text,
-                accessibilityFeature text,
-                accessibilityHazard text,
-                license text,
-                timeRequired text,
-                educationalRole text,
-                alignmentType text,
-                educationalFramework text,
-                targetDescription text,
-                targetName text,
-                targetURL text,
-                educationalUse text,
-                typicalAgeRange text,
-                interactivityType text,
-                learningResourceType text,
-                date_published text,
-                url text,
-                thumbnail text,
-                tags text,
-                project text,
-                source text,
-                spider text,
-                date_scraped datetime
-            )""")
+            table = "hoou_tb"
         elif spider_name == 'oerinfo_spider':
-            self.curr.execute("""DROP TABLE IF EXISTS oerinfo_tb""")
-            self.curr.execute("""create table oerinfo_tb(
-                name text,
-                about text,
-                author text,
-                publisher text,
-                inLanguage text,
-                accessibilityAPI text,
-                accessibilityControl text,
-                accessibilityFeature text,
-                accessibilityHazard text,
-                license text,
-                timeRequired text,
-                educationalRole text,
-                alignmentType text,
-                educationalFramework text,
-                targetDescription text,
-                targetName text,
-                targetURL text,
-                educationalUse text,
-                typicalAgeRange text,
-                interactivityType text,
-                learningResourceType text,
-                date_published text,
-                url text,
-                thumbnail text,
-                tags text,
-                project text,
-                source text,
-                spider text,
-                date_scraped datetime
-            )""")
+            table = "oerinfo_tb"
+        self.curr.execute("""DROP TABLE IF EXISTS """ + table + """ """)
+        self.curr.execute("""create table """ + table + """(
+            name text,
+            about text,
+            author text,
+            publisher text,
+            inLanguage text,
+            accessibilityAPI text,
+            accessibilityControl text,
+            accessibilityFeature text,
+            accessibilityHazard text,
+            license text,
+            timeRequired text,
+            educationalRole text,
+            alignmentType text,
+            educationalFramework text,
+            targetDescription text,
+            targetName text,
+            targetURL text,
+            educationalUse text,
+            typicalAgeRange text,
+            interactivityType text,
+            learningResourceType text,
+            date_published text,
+            url text,
+            thumbnail text,
+            tags text,
+            project text,
+            source text,
+            spider text,
+            date_scraped datetime
+        )""")
 
     def process_item(self, item, spider):
         self.store_db(item, spider)
@@ -152,69 +122,39 @@ class MySqlPipeline(object):
     def store_db(self, item, spider):
         spider_name = spider.name
         if spider_name == 'hoou_spider':
-            self.curr.execute("""insert into hoou_tb values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (
-                item['name'],
-                item['about'],
-                item['author'],
-                item['publisher'],
-                item['inLanguage'],
-                item['accessibilityAPI'],
-                item['accessibilityControl'],
-                item['accessibilityFeature'],
-                item['accessibilityHazard'],
-                item['license'],
-                item['timeRequired'],
-                item['educationalRole'],
-                item['alignmentType'],
-                item['educationalFramework'],
-                item['targetDescription'],
-                item['targetName'],
-                item['targetURL'],
-                item['educationalUse'],
-                item['typicalAgeRange'],
-                item['interactivityType'],
-                item['learningResourceType'],
-                item['date_published'],
-                item['url'],
-                item['thumbnail'],
-                item['tags'],
-                item['project'],
-                item['source'],
-                item['spider'],
-                item['date_scraped']
-            ))
-            self.conn.commit()
+            table = "hoou_tb"
         elif spider_name == 'oerinfo_spider':
-            self.curr.execute("""insert into oerinfo_tb values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (
-                item['name'],
-                item['about'],
-                item['author'],
-                item['publisher'],
-                item['inLanguage'],
-                item['accessibilityAPI'],
-                item['accessibilityControl'],
-                item['accessibilityFeature'],
-                item['accessibilityHazard'],
-                item['license'],
-                item['timeRequired'],
-                item['educationalRole'],
-                item['alignmentType'],
-                item['educationalFramework'],
-                item['targetDescription'],
-                item['targetName'],
-                item['targetURL'],
-                item['educationalUse'],
-                item['typicalAgeRange'],
-                item['interactivityType'],
-                item['learningResourceType'],
-                item['date_published'],
-                item['url'],
-                item['thumbnail'],
-                item['tags'],
-                item['project'],
-                item['source'],
-                item['spider'],
-                item['date_scraped']
-            ))
-            self.conn.commit()
+            table = "oerinfo_tb"
+        self.curr.execute("""insert into """ + table + """ values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (
+            item['name'],
+            item['about'],
+            item['author'],
+            item['publisher'],
+            item['inLanguage'],
+            item['accessibilityAPI'],
+            item['accessibilityControl'],
+            item['accessibilityFeature'],
+            item['accessibilityHazard'],
+            item['license'],
+            item['timeRequired'],
+            item['educationalRole'],
+            item['alignmentType'],
+            item['educationalFramework'],
+            item['targetDescription'],
+            item['targetName'],
+            item['targetURL'],
+            item['educationalUse'],
+            item['typicalAgeRange'],
+            item['interactivityType'],
+            item['learningResourceType'],
+            item['date_published'],
+            item['url'],
+            item['thumbnail'],
+            item['tags'],
+            item['project'],
+            item['source'],
+            item['spider'],
+            item['date_scraped']
+        ))
+        self.conn.commit()
 
