@@ -1,7 +1,7 @@
 <template>
   <div :key="key">
     <reactive-base
-    app="hoou,mein_index"
+    app="hoou,oerinfo,mein_index"
     url="http://localhost/es"
   >
 
