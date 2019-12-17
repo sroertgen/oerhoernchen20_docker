@@ -9,7 +9,7 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'oer_scrapy'
+BOT_NAME = 'oer_suchindex_https://github.com/sroertgen/oerhoernchen20_docker'
 
 SPIDER_MODULES = ['oer_scrapy.spiders']
 NEWSPIDER_MODULE = 'oer_scrapy.spiders'
@@ -66,26 +66,24 @@ EXTENSIONS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-  #  'oer_scrapy.pipelines.OerScrapyPipeline': 300,
     'oer_scrapy.pipelines.NormLicensePipeline': 200,
     'oer_scrapy.pipelines.JoinLongWhiteSpaceStringsPipeline': 250,
     # 'oer_scrapy.pipelines.TagPipeline': 260,
     'oer_scrapy.pipelines.MySqlPipeline': 300,
-
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
+AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 #AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
-#AUTOTHROTTLE_DEBUG = False
+AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
