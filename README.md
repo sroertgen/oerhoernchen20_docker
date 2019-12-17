@@ -7,7 +7,7 @@ The general idea of this prototype is to establish a example pipeline of how a O
 
 This **PROTOTYPE** is based on the following technologies all packed into docker-containers (beside the the scapy-crawler):
 
-- **Scrapy**: First OER repositories are crawled using **[Scrapy](http://scrapy.org/)** (currently I only crawled the [HOOU](https://www.hoou.de/) more will come. Entries without a proper license are skipped and not stored). The results are stored in a MySQL database.
+- **Scrapy**: First OER repositories are crawled using **[Scrapy](http://scrapy.org/)** (currently I only crawled the [HOOU](https://www.hoou.de/ and a bit of [OERinfo](https://open-educational-resources.de/)) more will come. Entries without a proper license are skipped and not stored). The results are stored in a MySQL database.
 - **MySQL**: Used to store the results of the crawl.
 - **Logstash**: Logstash is regulary checking the MySQL database, if any new items are added or changes are made to existing entries.
 - **Elasticsearch**: Elasticsearch is the search engine and indexes the input it gets from Logstash.
@@ -43,7 +43,6 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 
 ## ToDo's
 
-- [ ] add requirements to make virtualenv for using Scrapy
 - [ ] Only import necessary Bootstrap and ReactSearch packages in Vue
 
 ## Additional notices
