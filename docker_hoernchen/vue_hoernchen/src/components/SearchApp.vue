@@ -2,7 +2,7 @@
   <div :key="key">
     <reactive-base
     app="hoou,mein_index"
-    url="http://127.0.0.1:9200"
+    url="http://localhost/es"
   >
 
 <b-container fluid class="">

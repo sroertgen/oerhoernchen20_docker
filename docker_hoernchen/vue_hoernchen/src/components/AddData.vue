@@ -108,7 +108,7 @@ export default {
     },
     postData: function() {
       console.log(this.entry);
-      this.$http.post('http://127.0.0.1:9200/mein_index/_doc', this.entry)
+      this.$http.post('http://localhost/es/mein_index/_doc', this.entry)
         .then(response => {
           console.log(response);
         }, error => {
