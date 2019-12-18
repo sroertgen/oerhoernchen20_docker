@@ -11,7 +11,7 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 - **MySQL**: Used to store the results of the crawl.
 - **Logstash**: Logstash is regulary checking the MySQL database, if any new items are added or changes are made to existing entries.
 - **Elasticsearch**: Elasticsearch is the search engine and indexes the input it gets from Logstash.
-- **VueJS**: The WebApp is made with VueJS and using [ReactSearch](https://docs.appbase.io/docs/reactivesearch/vue/overview/QuickStart/) to connect to Elasticsearch. It provides the user interface to make search queries or add items to Elasticsearch.
+- **VueJS**: The WebApp is made with VueJS and using [ReactSearch](https://docs.appbase.io/docs/reactivesearch/vue/overview/QuickStart/) to connect to Elasticsearch. It provides the user interface to make search queries or add items to Elasticsearch. It is deployed using Nginx, which also provides some reverse proxy services to connect the App with the Docker network.
 
 ## Run it locally
 
