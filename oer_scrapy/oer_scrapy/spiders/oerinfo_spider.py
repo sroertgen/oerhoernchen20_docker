@@ -7,16 +7,7 @@ class OerinfoSpiderSpider(SitemapSpider):
     name = 'oerinfo_spider'
     sitemap_urls = [
         'https://open-educational-resources.de/sitemap_index.xml'
-        # 'https://open-educational-resources.de/podcast-sitemap.xml',
-        # 'https://open-educational-resources.de/fp_materialien-sitemap.xml',
-        # 'https://open-educational-resources.de/Praxiskategorie-sitemap.xml',
-        # 'https://open-educational-resources.de/oer_dossiers-sitemap.xml',
-        # 'https://open-educational-resources.de/oer_materialien-sitemap.xml',
-
         ]
-    # sitemap_rules = [
-    #     ('/podcast-sitemap.xml', 'parse'),
-    # ]
 
     def parse(self, response):
         now = datetime.now()
@@ -28,7 +19,6 @@ class OerinfoSpiderSpider(SitemapSpider):
         if il.add_xpath('about', '(//meta[@property="og:description"]/@content)[1]') is None:
             print("No description provided, skipping entry...")
 
-        # (//div[contains(@class, "lizenzkasten")]/text())[3]
         if il.add_xpath('author', '(//div[contains(@class, "lizenzkasten")]/em)[1]') is "":
             print("Author is none")
             il.add_value('author', 'keine Autorin angegeben')
@@ -53,7 +43,6 @@ class OerinfoSpiderSpider(SitemapSpider):
 
         if il.add_xpath('license', '(//div[contains(@class, "lizenzkasten")]/a[contains(@title, "Lizenz")])[2]') is None:
             print('No license provided, skipping resource...')
-            # il.add_value('license', 'keine Lizenz angegeben')
 
         if il.add_xpath('timeRequired', '(//tr/td[2])[11]') is None:
             il.add_value('timeRequired', '')

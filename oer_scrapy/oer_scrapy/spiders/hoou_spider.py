@@ -14,8 +14,6 @@ class HoouSpider(SitemapSpider):
   def parse_projects(self, response):
     now = datetime.now()
 
-    # if statements einfügen, falls Feld leer ist --> siehe Author field
-
     il = OerScrapyItemLoader(selector=response)
     if il.add_xpath('name', '//meta[@property="title"]/@content') is None:
       print("No title provided, skipping..." )
@@ -93,11 +91,3 @@ class HoouSpider(SitemapSpider):
     il.add_value('date_scraped', now.strftime("%Y-%m-%d %H:%M:%S"))
 
     yield il.load_item()
-
-# scrapy crawl hoou_spider -o hoou.json
-
-# Klammern sind wichtig, um richtige Position zu bekommen,
-# es gibt keinen 0. Eintrag bei xpath 
-
-
-# ' [text()[contains(.,'ABC')]]'
