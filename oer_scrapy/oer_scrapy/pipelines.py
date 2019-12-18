@@ -18,7 +18,6 @@ class OerScrapyPipeline(object):
 
 class JoinLongWhiteSpaceStringsPipeline(object):
     def process_item(self, item, spider):
-        print("I'm in JoinLongWhiteSpaceStringsPipeline", item.items())
         if item['author']:
             item['author'] = re.sub('  +', ', ', item['author'])
             return item
@@ -29,9 +28,15 @@ class TagPipeline(object):
             item['tags'] = item['tags'].replace(" ", ",")
             return item
 
+class NormLinksPipeline(object):
+    def process_item(self, item, spider):
+        if item['url']:
+            if not any(x in item['url'] for x in ["http://", "https://"]):
+                item['url'] = "https://" + item['url']
+                return item
+
 class NormLicensePipeline(object):
     def process_item(self, item, spider):
-        print("in Pipeline item license is", item["license"])
         if item['license']:
             if any(x in item["license"].lower() for x in ["0", "public domain"]) and not "." in item["license"].lower():
                 item["license"] = "CC 0"

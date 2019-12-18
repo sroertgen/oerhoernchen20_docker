@@ -107,6 +107,11 @@ export default {
       console.log(mykey);
     },
     postData: function() {
+      var url_prefix = ["http://", "https://"];
+      if (url_prefix.some(el => this.entry.url.includes(el)) == false) {
+        console.log("no given prefix found");
+        this.entry.url = "https://" + this.entry.url;
+      }
       console.log(this.entry);
       this.$http.post('http://localhost/es/mein_index/_doc', this.entry)
         .then(response => {

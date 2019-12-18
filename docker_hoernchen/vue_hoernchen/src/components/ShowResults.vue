@@ -30,7 +30,7 @@
     </b-card-img>
     <b-card-body>
       <b-card-title title-tag="h4">
-        <a :href="'//' + item.url" target="_blank">{{ item.name }}</a>
+        <a :href="item.url" target="_blank">{{ item.name }}</a>
       </b-card-title>
       <b-card-text>
         {{ item.about | subStr }}

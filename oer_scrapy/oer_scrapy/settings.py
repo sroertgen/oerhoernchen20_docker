@@ -69,6 +69,7 @@ ITEM_PIPELINES = {
     'oer_scrapy.pipelines.NormLicensePipeline': 200,
     'oer_scrapy.pipelines.JoinLongWhiteSpaceStringsPipeline': 250,
     # 'oer_scrapy.pipelines.TagPipeline': 260,
+    'oer_scrapy.pipelines.NormLinksPipeline': 270,
     'oer_scrapy.pipelines.MySqlPipeline': 300,
 }
 
