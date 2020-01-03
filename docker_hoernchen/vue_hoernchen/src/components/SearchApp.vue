@@ -2,11 +2,12 @@
   <div :key="key">
     <reactive-base
     app="hoou,oerinfo,mein_index"
-    url="http://localhost/es"
+    :url="getHostname()"
+    credentials="elastic:changethisinproduction"
   >
 
 <b-container fluid class="">
-<h1 style="text-align:center">🐿️ Docker-hOERnchen 👋</h1>
+<h1 style="text-align:center"></h1>
   <b-row class="text-center">
     <b-col xs="12" sm="12" md="3" lg="3" class="order-md-first order-lg-first">
       <!-- Col 1 Filter -->
@@ -59,7 +60,7 @@ import ShowResults from './ShowResults'
     data() {
       return {
         // This is used for updatign the index after adding an entry
-        key: 0
+        key: 0,
       };
     },
     components: {
@@ -75,7 +76,14 @@ import ShowResults from './ShowResults'
       updateKey(key) {
         console.log("UpdateKey got called")
         this.key = key;
-        }
+        },
+      getHostname: function() {
+        console.log("Getting hostname to build elasticsearch url...")
+        var ip = location.host;
+        var es_url = "http://" + ip + "/es";
+        console.log(es_url);
+        return es_url;
+      }
     }
   };
 </script>

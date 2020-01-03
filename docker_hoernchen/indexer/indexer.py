@@ -1,19 +1,13 @@
 from elasticsearch import Elasticsearch
 
-# import time
-# time.sleep(30)
-
-es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200}])
-
 def connect_elasticsearch():
     _es = None
-    _es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200}])
+    _es = Elasticsearch(['elastic:changethisinproduction@elasticsearch:9200'])
     if _es.ping():
         print('Yay Connect')
     else:
         print('Awww it could not connect!')
     return _es
-
 
 # create index
 print("Connecting to Elasticsearch...")

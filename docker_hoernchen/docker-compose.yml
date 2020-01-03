@@ -5,6 +5,8 @@ services:
     image: elasticsearch:7.4.2
     environment:
       - "discovery.type=single-node"
+      - ELASTIC_PASSWORD=changethisinproduction
+      - xpack.security.enabled=true
       - http.port=9200
       - http.cors.enabled=true
       # TODO http.cors.allow-origin: "http://reactive-search-app-domain.com:port" <-- evtl noch anpassen (https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html)
@@ -27,6 +29,8 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+    volumes:
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
 
   mysql:
     build:
