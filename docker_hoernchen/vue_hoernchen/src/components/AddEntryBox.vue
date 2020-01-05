@@ -5,8 +5,8 @@
         label='Eintrag zu "Mein Index" hinzufügen'
         label-size="md"
         label-class="font-weight-bold pt-0"
-        class="mb-0">
-
+        class="mb-0"
+        >
           <b-form-group
             label="Titel:"
             label-for="name"
@@ -42,7 +42,22 @@
     <p>Url: {{entry.url}}</p>
     <div class="mt-3">Lizenz: {{ entry.license }}</div>
 
-    <button @click="postData">URL zu Index "Mein Index" hinzufügen</button>
+    <b-row align-h="between">
+      <b-col>
+        <b-button @click="postData">URL zu Index "Mein Index" hinzufügen</b-button>
+      </b-col>
+      <b-col>
+        <router-link
+         tag="b-button"
+         :to="{ 
+           name: 'AddEntryPage' , params: {
+            entry: entry
+            }
+           }">Mehr Metadaten hinzufügen
+         <font-awesome-icon icon="edit"/>
+         </router-link>
+      </b-col>
+    </b-row>
   </b-card>
   </div>
 
@@ -96,7 +111,7 @@ export default {
           { value: 'CC BY-SA', text: 'CC BY-SA' },
           { value: 'CC BY-SA-NC', text: 'CC BY-SA-NC' },
           { value: 'CC BY-ND', text: 'CC BY-ND' },
-        ]
+        ],
     };
   },
   methods: {
@@ -113,14 +128,22 @@ export default {
         this.entry.url = "https://" + this.entry.url;
       }
       console.log(this.entry);
-      this.$http.post('http://localhost/es/mein_index/_doc', this.entry)
+      this.$http.post(this.getHostname(), this.entry, {headers: {'Authorization': 'Basic ZWxhc3RpYzpjaGFuZ2V0aGlzaW5wcm9kdWN0aW9u'}})
         .then(response => {
           console.log(response);
         }, error => {
           console.log(error);
         })
-      // I guess this can be improved
+      // TODO I guess this can be improved
       setTimeout(this.rerender, 1500);
+    },
+    getHostname: function() {
+        console.log("Getting hostname for post data...")
+        var ip = location.host;
+        console.log("Hostname is: " + ip);
+        var es_url = "http://" + ip + ":9200/mein_index/_doc";
+        console.log("Builded url for posting to 'mein_index' is: " + es_url);
+        return es_url;
     },
   }
 }
