@@ -82,9 +82,15 @@ class HoouSpider(SitemapSpider):
 
     il.add_xpath('date_published', '(//p[text()[contains(.,"Veröffentlicht")]]/following-sibling::*/text())[1]')
 
-    il.add_xpath('url', '(//meta[@property="og:url"]/@content)')
+    if il.add_xpath('url', '(//meta[@property="og:url"]/@content)') is None:
+      il.add_value('url', '')
+
     il.add_xpath('thumbnail', '(//meta[@property="og:image"]/@content)')
-    il.add_xpath('tags', '//div[contains(@class, "hashtag-labels")]//a')
+
+    seperator =", "
+    tag_list = response.xpath('//div[contains(@class, "hashtag-labels")]//a/text()').extract()
+    il.add_value('tags', seperator.join(tag_list))
+
     il.add_value('project', self.settings.get("BOT_NAME"))
     il.add_value('source', 'HOOU')
     il.add_value('spider', 'hoou_spider')
