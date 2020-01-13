@@ -48,7 +48,7 @@ class NormLinksPipeline(object):
 class NormLicensePipeline(object):
     def process_item(self, item, spider):
         if item['license']:
-            if any(x in item["license"].lower() for x in ["0", "public domain"]) and not "." in item["license"].lower():
+            if any(x in item["license"].lower() for x in ["cc_0", "cc 0" "cc0", "public domain", "publicdomain", "zero"]):
                 item["license"] = "CC 0"
                 return item
             elif all(x in item['license'].lower() for x in ["sa", "by"]) and not "nc" in item["license"].lower():

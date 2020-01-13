@@ -3,6 +3,11 @@
   <b-navbar type="light" variant="fadeds">
     <b-navbar-brand tag="h1" class="mb-0" to="/" >🐿️ Docker-hOERnchen 👋</b-navbar-brand>
     <b-navbar-nav class="ml-auto">
+      <router-link
+      tag="b-button"
+      :to="{
+        name: 'ViewStats'}"
+      >Metadaten-Statistik</router-link>
       <!-- TODO b-button gegen router-link tauschen -->
       <b-button 
           v-if="(loggedIn == false) && (this.$route.path != '/login') && showLogin" 
@@ -23,12 +28,14 @@
 </template>
 
 <script>
+import ViewStats from './metadata/ViewStats.vue';
+
 export default {
   data() {
     return {
       loggedIn: false,
       showLogin: false,
     }
-  }
+  },
 }
 </script>

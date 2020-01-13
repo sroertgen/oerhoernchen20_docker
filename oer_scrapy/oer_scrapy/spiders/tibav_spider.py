@@ -44,7 +44,8 @@ class TibavSpiderSpider(SitemapSpider):
         il.add_value('accessibilityHazard', '')
 
         if il.add_xpath('license', '(//a[@href[contains(.,"creativecommons")]])[last()]') is None:
-            print('No license provided, skipping resource...')
+            if il.add_xpath('license', '//td[contains(., "License")]/following-sibling::td//div/text()') is None:
+                print('No license provided, skipping resource...')
 
         # if il.add_xpath('timeRequired', '(//tr/td[2])[11]') is None:
         il.add_value('timeRequired', '')

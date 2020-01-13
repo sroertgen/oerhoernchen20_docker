@@ -94,7 +94,7 @@ export default {
         console.log("Getting hostname for post data...")
         var ip = location.host;
         console.log("Hostname is: " + ip);
-        var es_url = "http://" + ip + ":9200/mein_index/_doc";
+        var es_url = "http://" + ip + "/es/mein_index/_doc";
         console.log("Builded url for posting to 'mein_index' is: " + es_url);
         return es_url;
     },

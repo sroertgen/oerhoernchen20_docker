@@ -44,7 +44,7 @@ class HoouSpider(SitemapSpider):
     if il.add_xpath('accessibilityHazard', '(//tr/td[2])[9]') is None:
       il.add_value('accessibilityHazard', '')
 
-    if il.add_xpath('license', '(//a[@href[contains(.,"creativecommons")]])[last()]') is None:
+    if il.add_xpath('license', '(//a[@href[contains(.,"creativecommons")]])[last()]/text()') is None:
       print('No license provided, skipping resource...')
     
     if il.add_xpath('timeRequired', '(//tr/td[2])[11]') is None:

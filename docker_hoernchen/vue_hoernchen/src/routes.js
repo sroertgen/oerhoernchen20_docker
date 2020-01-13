@@ -3,6 +3,7 @@ import App from './App.vue';
 import Login from './components/user/Login.vue';
 import User from './components/user/User.vue';
 import AddEntryPage from './components/metadata/AddEntryPage.vue';
+import ViewStats from './components/metadata/ViewStats.vue';
 
 export const routes = [
   { 
@@ -21,4 +22,9 @@ export const routes = [
     component: AddEntryPage,
     props: true
   },
+  {
+    path: '/viewStats',
+    name: 'ViewStats',
+    component: ViewStats,
+  }
 ];

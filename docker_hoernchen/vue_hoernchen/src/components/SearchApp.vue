@@ -1,7 +1,7 @@
 <template>
   <div :key="key">
     <reactive-base
-    app="hoou,oerinfo,mein_index"
+    :app="indices"
     :url="getHostname()"
     credentials="elastic:changethisinproduction"
   >
@@ -58,6 +58,7 @@ import ShowResults from './ShowResults'
 	export default {
     data() {
       return {
+        indices: "hoou,oerinfo,mein_index,hhu,openrub,digill,zoerr,tibav",
         // This is used for updatign the index after adding an entry
         key: 0,
       };
