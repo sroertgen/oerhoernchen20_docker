@@ -3,15 +3,7 @@ import requests
 import os
 from time import sleep
 
-indices = [
-    'hoou',
-    'oerinfo',
-    'hhu',
-    'openrub',
-    'digill',
-    'zoerr',
-    'tibav',
-]
+indices = ['hoou','oerinfo','hhu','openrub','digill','zoerr','tibav']
 seperator = ', '
 
 def create_index_pattern_string(index_list):
