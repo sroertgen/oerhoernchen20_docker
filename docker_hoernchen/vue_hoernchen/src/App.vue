@@ -1,19 +1,25 @@
 <template>
   <div id="app">
   <app-fork-me></app-fork-me>
-  <app-search-app></app-search-app>
+  <!-- NavBar -->
+  <app-nav-bar></app-nav-bar>
+
+  <router-view></router-view>
+
   <button onclick="topFunction()" id="myBtn" title="Go to top"><font-awesome-icon icon="arrow-circle-up" /></button>
 
 </div>
 </template>
 
 <script>
+import NavBar from './components/NavBar.vue'
 import SearchApp from './components/SearchApp'
 import ForkMe from './components/ForkMe'
 
 export default {
 		name: 'App',
     components: {
+      'app-nav-bar': NavBar,
       'app-search-app': SearchApp,
       'app-fork-me': ForkMe
     }

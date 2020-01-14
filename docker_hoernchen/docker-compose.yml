@@ -9,28 +9,34 @@ services:
       - xpack.security.enabled=true
       - http.port=9200
       - http.cors.enabled=true
-      # TODO http.cors.allow-origin: "http://reactive-search-app-domain.com:port" <-- evtl noch anpassen (https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html)
       - http.cors.allow-origin=*
-      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization, Access-Control-Allow-Headers, Accept
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization,Access-Control-Allow-Headers,Accept
       - http.cors.allow-credentials=true
       - bootstrap.memory_lock=true
       - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
     networks:
       - elasticnet
-    ports:
-      - "9200:9200"
-      - "9300:9300"
+    restart: on-failure
 
   kibana:
     image: kibana:7.4.2
     networks:
       - elasticnet
-    ports:
-      - "5601:5601"
     depends_on:
       - elasticsearch
     volumes:
       - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    restart: on-failure
+  
+  kibana_dashboard:
+    image: kibana:7.4.2
+    networks:
+      - elasticnet
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./kibana_dashboard/kibana.yml:/usr/share/kibana/config/kibana.yml
+    restart: on-failure
 
   mysql:
     build:
@@ -51,16 +57,13 @@ services:
     build:
       context: ./logstash_mysql
       dockerfile: logstash_mysql.Dockerfile
-    ports:
-      - "5001:5001"
-      - "5044:5044"
-      - "9600:9600"
     networks:
       - elasticnet
     depends_on:
       - elasticsearch
       - mysql
       - kibana
+    restart: on-failure
 
   indexer:
     build:
@@ -74,7 +77,7 @@ services:
       restart_policy:
         condition: none
         delay: 60s
-    restart: on-failure
+    restart: always
 
   vue_hoernchen:
     build:
@@ -88,6 +91,7 @@ services:
       - elasticsearch
       - mysql
       - kibana
+    restart: on-failure
 
 networks:
   elasticnet:

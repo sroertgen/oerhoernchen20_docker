@@ -18,8 +18,13 @@ class OerScrapyPipeline(object):
 
 class JoinLongWhiteSpaceStringsPipeline(object):
     def process_item(self, item, spider):
+        if spider.name == "zoerr_spider":
+            return item
+        if spider.name == "hhu_spider":
+            return item
         if item['author']:
             item['author'] = re.sub('  +', ', ', item['author'])
+            item['tags'] = " ".join(item['tags'].split())
             return item
 
 class TagPipeline(object):
@@ -30,15 +35,20 @@ class TagPipeline(object):
 
 class NormLinksPipeline(object):
     def process_item(self, item, spider):
-        if item['url']:
+        print("Items is: ", item)
+        if spider.name == "zoerr_spider":
+            return item
+        elif item['url']:
             if not any(x in item['url'] for x in ["http://", "https://"]):
                 item['url'] = "https://" + item['url']
+                return item
+            else:
                 return item
 
 class NormLicensePipeline(object):
     def process_item(self, item, spider):
         if item['license']:
-            if any(x in item["license"].lower() for x in ["0", "public domain"]) and not "." in item["license"].lower():
+            if any(x in item["license"].lower() for x in ["cc_0", "cc 0" "cc0", "public domain", "publicdomain", "zero"]):
                 item["license"] = "CC 0"
                 return item
             elif all(x in item['license'].lower() for x in ["sa", "by"]) and not "nc" in item["license"].lower():
@@ -87,6 +97,18 @@ class MySqlPipeline(object):
             table = "hoou_tb"
         elif spider_name == 'oerinfo_spider':
             table = "oerinfo_tb"
+        elif spider_name == 'zoerr_spider':
+            table = "zoerr_tb"
+        elif spider_name == 'oncampus_spider':
+            table = "oncampus_tb"
+        elif spider_name == 'tibav_spider':
+            table = "tibav_tb"
+        elif spider_name == 'hhu_spider':
+            table = "hhu_tb"
+        elif spider_name == 'digill_spider':
+            table = "digill_tb"
+        elif spider_name == 'openrub_spider':
+            table = "openrub_tb"
         self.curr.execute("""DROP TABLE IF EXISTS """ + table + """ """)
         self.curr.execute("""create table """ + table + """(
             name text,
@@ -130,6 +152,18 @@ class MySqlPipeline(object):
             table = "hoou_tb"
         elif spider_name == 'oerinfo_spider':
             table = "oerinfo_tb"
+        elif spider_name == 'zoerr_spider':
+            table = "zoerr_tb"
+        elif spider_name == 'oncampus_spider':
+            table = "oncampus_tb"
+        elif spider_name == 'tibav_spider':
+            table = "tibav_tb"
+        elif spider_name == 'hhu_spider':
+            table = "hhu_tb"
+        elif spider_name == 'digill_spider':
+            table = "digill_tb"
+        elif spider_name == 'openrub_spider':
+            table = "openrub_tb"
         self.curr.execute("""insert into """ + table + """ values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (
             item['name'],
             item['about'],

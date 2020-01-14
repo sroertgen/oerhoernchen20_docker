@@ -1,13 +1,24 @@
 # Docker-Hoernchen 2.0
 
-This project is a dockerized version of the [oerhoernchen20](https://github.com/programmieraffe/oerhoernchen20) made by [Matthias Andrasch](https://twitter.com/m_andrasch). 
-It tries to combine the central OER search engine approach proprosed by Matthias with the [personalized search engine](https://ebildungslabor.de/blog/oersuchtool/) approach proposed by [Nele Hirsch](https://twitter.com/eBildungslabor) as it is also possible to insert ones own data to the search engines index.
+This project is a dockerized version of the [oerhoernchen20](https://github.com/programmieraffe/oerhoernchen20) made by [Matthias Andrasch](https://twitter.com/m_andrasch). It tries to combine the central OER search engine approach proprosed by Matthias with the [personalized search engine](https://ebildungslabor.de/blog/oersuchtool/) approach proposed by [Nele Hirsch](https://twitter.com/eBildungslabor) as it is also possible to insert ones own data to the search engines index.
 
-The general idea of this prototype is to establish a example pipeline of how a OER search engine could work. 
+The general idea of this prototype is to establish a example pipeline of how a OER search engine could work.
 
 This **PROTOTYPE** is based on the following technologies all packed into docker-containers (beside the the scapy-crawler):
 
-- **Scrapy**: First OER repositories are crawled using **[Scrapy](http://scrapy.org/)** (currently I only crawled the [HOOU](https://www.hoou.de/ and a bit of [OERinfo](https://open-educational-resources.de/)) more will come. Entries without a proper license are skipped and not stored). The results are stored in a MySQL database.
+- **Scrapy**: First OER repositories are crawled using **[Scrapy](http://scrapy.org/)**. Currently the following repositories are crawled:
+
+  - [HOOU](https://www.hoou.de/)
+  - a bit of [OERinfo](https://open-educational-resources.de/)
+  - [TIB-AV-Portal](https://av.tib.eu)
+  - [digiLL](https://digill.de/)
+  - [OpenRUB](https://open.ruhr-uni-bochum.de)
+  - [HHU-Mediathek](https://mediathek.hhu.de/)
+  - MOOCs of [oncampus](https://www.oncampus.de/)
+  - [ZOERR](https://uni-tuebingen.oerbw.de)
+
+  Entries without a proper license are skipped and not stored). The results are stored in a MySQL database.
+
 - **MySQL**: Used to store the results of the crawl.
 - **Logstash**: Logstash is regulary checking the MySQL database, if any new items are added or changes are made to existing entries.
 - **Elasticsearch**: Elasticsearch is the search engine and indexes the input it gets from Logstash.
@@ -17,7 +28,7 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 
 ### OERhörnchen 2.0
 
-- make sure you have git installed (https://www.atlassian.com/git/tutorials/install-git)
+- make sure you have git installed (<https://www.atlassian.com/git/tutorials/install-git>)
 - make sure you have [Docker installed](https://docs.docker.com/install/)
 - `git clone`
 - `cd oerhoernchen20_docker/docker_hoernchen`
@@ -28,14 +39,13 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 
 ### Crawler
 
-- make sure you have python3 installed (https://docs.python-guide.org/starting/install3/osx/)
+- make sure you have python3 installed (<https://docs.python-guide.org/starting/install3/osx/>)
 - go to project root
 - `cd oer_scrapy`
 - `python -m venv oerhoernchen`
 - `source oerhoernchen/bin/activate`
 - `pip3 install requirements.txt`
 - crawler can be run with `scrapy crawl hoou_spider`. It assumes that you have the MySQL database running, so you should run the `docker-compose up` command from before.
-
 
 ## Metadata
 
@@ -47,6 +57,10 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 
 ## Additional notices
 
+### Sitemaps for the crawler
+
+- ZOERR: <https://uni-tuebingen.oerbw.de/edu-sharing/eduservlet/sitemap?from=0#osds>
+
 ### Database
 
 #### Creating a mysql database dump with docker container
@@ -57,26 +71,26 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 
 #### Ressources
 
-- https://docs.appbase.io/docs/reactivesearch/vue/overview/QuickStart/
+- <https://docs.appbase.io/docs/reactivesearch/vue/overview/QuickStart/>
 - [Getting started guide](https://opensource.appbase.io/reactive-manual/getting-started/reactivebase.html)
 
 ### Multiple database inputs via logstash
 
-- https://stackoverflow.com/questions/37613611/multiple-inputs-on-logstash-jdbc
+- <https://stackoverflow.com/questions/37613611/multiple-inputs-on-logstash-jdbc>
 
 ### Duplicate detection
 
-- logstash Fingerprint vor duplicate detection? (https://www.elastic.co/de/blog/logstash-lessons-handling-duplicates
-- https://www.elastic.co/de/blog/efficient-duplicate-prevention-for-event-based-data-in-elasticsearch)
+- logstash Fingerprint vor duplicate detection?
+  - <https://www.elastic.co/de/blog/logstash-lessons-handling-duplicates>
+  - <https://www.elastic.co/de/blog/efficient-duplicate-prevention-for-event-based-data-in-elasticsearch>
 
-
-## #Snippets
+### Snippets
 
 #### Transform data
 
-```
-		:transformData="transformMyData"
-		/>
+```vuejs
+    :transformData="transformMyData"
+  />
 
 </div>
 </template>
@@ -84,23 +98,23 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 <script>
 export default {
   methods: {
-		transformMyData: (list) => {
-			console.log(list);
-			console.log(list[1].key);
-				return [
-					{key: "", doc_count: list[0].doc_count},
-					{value: "CC_BY_S_A", key: "CC-BY-SA", label:"CC_BY_SA", doc_count: list[1].doc_count},
-					{key: "CC-0", doc_count: list[2].doc_count},
-					{key: "CC-BY_NC_SA", doc_count: list[3].doc_count},
-					{key: "CC_BY_NC_SA", doc_count: list[4].doc_count},
-					{key: "CC-BY-SA2", doc_count: list[5].doc_count},
-					{key: "CC-BY-NC-ND", doc_count: list[6].doc_count},
-					{key: "CC-BY-ND", doc_count: list[7].doc_count},
-					{key: "CC-BY", doc_count: list[8].doc_count},
-					{key: "CC-BY-2", doc_count: list[9].doc_count},
-					{key: "CC-BY-NC2", doc_count: list[10].doc_count},
-					{key: "Creative Commons", doc_count: list[11].doc_count},
-				];
-		}
-	}
+    transformMyData: (list) => {
+      console.log(list);
+      console.log(list[1].key);
+        return [
+          {key: "", doc_count: list[0].doc_count},
+          {value: "CC_BY_S_A", key: "CC-BY-SA", label:"CC_BY_SA", doc_count: list[1].doc_count},
+          {key: "CC-0", doc_count: list[2].doc_count},
+          {key: "CC-BY_NC_SA", doc_count: list[3].doc_count},
+          {key: "CC_BY_NC_SA", doc_count: list[4].doc_count},
+          {key: "CC-BY-SA2", doc_count: list[5].doc_count},
+          {key: "CC-BY-NC-ND", doc_count: list[6].doc_count},
+          {key: "CC-BY-ND", doc_count: list[7].doc_count},
+          {key: "CC-BY", doc_count: list[8].doc_count},
+          {key: "CC-BY-2", doc_count: list[9].doc_count},
+          {key: "CC-BY-NC2", doc_count: list[10].doc_count},
+          {key: "Creative Commons", doc_count: list[11].doc_count},
+        ];
+    }
+  }
 ```

@@ -1,0 +1,9 @@
+server.name: kibana_dashboard
+server.basePath: "/kibana_dashboard"
+server.host: "0"
+server.cors: true
+server.cors.origin: ["*"]
+elasticsearch.hosts: http://elasticsearch:9200
+elasticsearch.username: "elastic"
+elasticsearch.password: "changethisinproduction"
+xpack.monitoring.enabled: false
