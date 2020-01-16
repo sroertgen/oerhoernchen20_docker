@@ -3,7 +3,7 @@ import requests
 import os
 from time import sleep
 
-indices = ['hoou','oerinfo','hhu','openrub','digill','zoerr','tibav']
+indices = ['oer_hoou','oer_oerinfo','oer_hhu','oer_openrub','oer_digill','oer_zoerr','oer_tibav', 'oer_oncampus']
 seperator = ', '
 
 def create_index_pattern_string(index_list):
@@ -34,7 +34,7 @@ def merge_indices():
              'Authorization': 'Basic ZWxhc3RpYzpjaGFuZ2V0aGlzaW5wcm9kdWN0aW9u',
              'kbn-xsrf': 'true'
              }
-  data = '{"source": { "index": [' + index_pattern_string + ']},"dest": { "index": "all_together"}}'
+  data = '{"source": { "index": [' + index_pattern_string + ']},"dest": { "index": "oer_all_together"}}'
   response = requests.post(url, headers=headers, data=data)
   print(f"Response for merge indices is: {response.content}")
 
@@ -46,14 +46,15 @@ def create_dashboard():
   # create index pattern
   print("Creating index patterns...")
   indices = [
-      'hoou',
-      'oerinfo',
-      'hhu',
-      'openrub',
-      'digill',
-      'zoerr',
-      'tibav',
-      'all_together'
+      'oer_hoou',
+      'oer_oerinfo',
+      'oer_hhu',
+      'oer_openrub',
+      'oer_digill',
+      'oer_zoerr',
+      'oer_tibav',
+      'oer_oncampus',
+      'oer_all_together'
   ]
   for index in indices:
     print(f"Index is: {index}")

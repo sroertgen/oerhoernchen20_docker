@@ -58,7 +58,7 @@ import ShowResults from './ShowResults'
 	export default {
     data() {
       return {
-        indices: "hoou,oerinfo,mein_index,hhu,openrub,digill,zoerr,tibav",
+        indices: "oer_hoou,oer_oerinfo,mein_index,oer_hhu,oer_openrub,oer_digill,oer_zoerr,oer_tibav,oer_oncampus",
         // This is used for updatign the index after adding an entry
         key: 0,
       };
