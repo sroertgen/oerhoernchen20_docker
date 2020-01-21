@@ -84,37 +84,6 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
   - <https://www.elastic.co/de/blog/logstash-lessons-handling-duplicates>
   - <https://www.elastic.co/de/blog/efficient-duplicate-prevention-for-event-based-data-in-elasticsearch>
 
-### Snippets
+## License
 
-#### Transform data
-
-```vuejs
-    :transformData="transformMyData"
-  />
-
-</div>
-</template>
-
-<script>
-export default {
-  methods: {
-    transformMyData: (list) => {
-      console.log(list);
-      console.log(list[1].key);
-        return [
-          {key: "", doc_count: list[0].doc_count},
-          {value: "CC_BY_S_A", key: "CC-BY-SA", label:"CC_BY_SA", doc_count: list[1].doc_count},
-          {key: "CC-0", doc_count: list[2].doc_count},
-          {key: "CC-BY_NC_SA", doc_count: list[3].doc_count},
-          {key: "CC_BY_NC_SA", doc_count: list[4].doc_count},
-          {key: "CC-BY-SA2", doc_count: list[5].doc_count},
-          {key: "CC-BY-NC-ND", doc_count: list[6].doc_count},
-          {key: "CC-BY-ND", doc_count: list[7].doc_count},
-          {key: "CC-BY", doc_count: list[8].doc_count},
-          {key: "CC-BY-2", doc_count: list[9].doc_count},
-          {key: "CC-BY-NC2", doc_count: list[10].doc_count},
-          {key: "Creative Commons", doc_count: list[11].doc_count},
-        ];
-    }
-  }
-```
+Feel free to use all source code created by me via https://creativecommons.org/publicdomain/zero/1.0/, does not apply to external source code provided by other projects. If you want, you may of course mention [Matthias Andrasch](https://twitter.com/m_andrasch) and me. 
