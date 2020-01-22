@@ -86,4 +86,4 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 
 ## License
 
-Feel free to use all source code created by me via https://creativecommons.org/publicdomain/zero/1.0/, does not apply to external source code provided by other projects. If you want, you may of course mention [Matthias Andrasch](https://twitter.com/m_andrasch) and me. 
+No decision on License is made right now. Please contact me directly if you want to reuse.
