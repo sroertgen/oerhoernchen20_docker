@@ -86,4 +86,4 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 
 ## License
 
-No decision on License is made right now. Please contact me directly if you want to reuse.
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Docker-Hoernchen 2.0</span> von <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/sroertgen/oerhoernchen20_docker" property="cc:attributionName" rel="cc:attributionURL">Steffen Rörtgen (im Rahmen des Projektes JOINTLY)</a> ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Namensnennung 4.0 International Lizenz</a>.<br />Beruht auf dem Werk unter <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/programmieraffe/oerhoernchen20" rel="dct:source">https://github.com/programmieraffe/oerhoernchen20</a>.
