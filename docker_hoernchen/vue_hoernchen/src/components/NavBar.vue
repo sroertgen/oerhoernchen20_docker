@@ -3,17 +3,31 @@
   <b-navbar type="light" variant="fadeds">
     <b-navbar-brand tag="h1" class="mb-0" to="/" >🐿️ Docker-hOERnchen 👋</b-navbar-brand>
     <b-navbar-nav class="ml-auto">
+      <!-- Metadaten-Statistik Button -->
       <router-link
-      tag="b-button"
-      :to="{
-        name: 'ViewStats'}"
-      >Metadaten-Statistik</router-link>
-      <!-- TODO b-button gegen router-link tauschen -->
-      <b-button 
-          v-if="(loggedIn == false) && (this.$route.path != '/login') && showLogin" 
-          to="/login" variant="outline-success" 
-          class="my-2 my-sm-0">Login (not working, for testing...)
-        </b-button>
+        v-if="this.$route.path != '/viewStats'"
+        tag="b-button"
+        :to="{name: 'ViewStats'}"
+        >Metadaten-Statistik</router-link>
+      <!-- AddSitemap Button -->
+      <router-link
+        v-if="this.$route.path != '/addSitemap'"
+        tag="b-button"
+        :to="{name: 'AddSitemap'}"
+        >Sitemap hinzufügen</router-link>
+      <!-- Login-Button -->
+      <router-link
+        v-if="(loggedIn == false) && (this.$route.path != '/login') && showLogin"
+        tag="b-button"
+        :to="{name: 'ViewStats'}"
+        >Login (not working, for testing...)
+        </router-link>
+        <router-link
+          v-if="this.$route.path != '/' "
+          tag="b-button"
+          :to="{name: 'SearchApp'}"
+          >Zurück
+        </router-link>
       <b-nav-item-dropdown right v-if="loggedIn">
         <!-- Using 'button-content' slot -->
         <template v-slot:button-content>
@@ -29,6 +43,8 @@
 
 <script>
 import ViewStats from './metadata/ViewStats.vue';
+import AddSitemap from './addSitemap/AddSitemap.vue';
+import SearchApp from './SearchApp.vue';
 
 export default {
   data() {
