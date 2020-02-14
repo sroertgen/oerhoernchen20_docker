@@ -22,7 +22,7 @@
                         <td>{{ sitemap.name }}</td>
                         <td>{{ sitemap.url }}</td>
                         <td>
-                          <span v-if="sitemap.read_in=='1'">Eingelesen</span>
+                          <span v-if="sitemap.read_in">Eingelesen</span>
                           <span v-else>Nicht eingelesen</span>
                         </td>
                         <td>
@@ -65,8 +65,20 @@
               <b-form-input id="form-url-input" type="text" v-model="addSitemapForm.url" required placeholder="Bitte Url eingeben">
               </b-form-input>
             </b-form-group>
+            <b-form-group id="form-read-group">
+              <b-form-checkbox-group v-model="addSitemapForm.read_in" id="form-checks">
+                <b-form-checkbox
+                  value="true"
+                  uncheck-value="false"
+                >
+                  Read?
+                </b-form-checkbox>
+              </b-form-checkbox-group>
+            </b-form-group>
+            <b-button-group>
             <b-button type="submit" variant="primary">Submit</b-button>
             <b-button type="reset" variant="danger">Reset</b-button>
+            </b-button-group>
           </b-form>
         </b-modal>
 
@@ -116,13 +128,13 @@ export default {
       addSitemapForm: {
         name: '',
         url: '',
-        read_in: '1',
+        read_in: [],
       },
       editForm: {
         id: '',
         name: '',
         url: '',
-        read_in: '',
+        read_in: [],
       },
       message: '',
     };
@@ -174,11 +186,11 @@ export default {
     initForm() {
       this.addSitemapForm.name = '';
       this.addSitemapForm.url = '';
-      this.addSitemapForm.read_in = '';
+      this.addSitemapForm.read_in = [];
       this.editForm.id = '';
       this.editForm.name = '';
       this.editForm.url = '';
-      this.editForm.read_in = '';
+      this.editForm.read_in = [];
     },
     onDeleteSitemap(sitemap) {
       this.removeSitemap(sitemap.id);
@@ -187,7 +199,7 @@ export default {
       evt.preventDefault();
       this.$refs.addSitemapModal.hide();
       let read_in = false;
-      if (this.addSitemapForm.read_in[0]) read_in = true;
+      if (this.addSitemapForm.read_in) read_in = true;
       const payload = {
         name: this.addSitemapForm.name,
         url: this.addSitemapForm.url,
@@ -200,7 +212,7 @@ export default {
       evt.preventDefault();
       this.$refs.editSitemapModal.hide();
       let read_in = false;
-      if (this.editForm.read_in[0]) read_in = true;
+      if (this.editForm.read_in) read_in = true;
       const payload = {
         name: this.editForm.name,
         url: this.editForm.url,

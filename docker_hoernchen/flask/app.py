@@ -14,7 +14,7 @@ database_password='oerhoernchenpw'
 # Create database engine
 engine = sqlalchemy.create_engine('mysql+mysqlconnector://{0}:{1}@{2}/{3}'.format(database_user, database_password, database_host, database_name))
 
-db_statement_create = "CREATE TABLE indices (id VARCHAR(255), name VARCHAR(255), url VARCHAR(255), read_in VARCHAR(255))"
+db_statement_create = "CREATE TABLE indices (id VARCHAR(255), name VARCHAR(255), url VARCHAR(255), read_in TINYINT(1))"
 db_statement_select = 'SELECT * FROM indices'
 db_statement_check_if_exist = "SHOW TABLES LIKE 'indices'"
 
@@ -40,6 +40,7 @@ def get_indices():
     fetched = db_cursor.fetchall()
     print(f"Fetched is: {fetched}")
     for sitemap in fetched:
+        type(f"Type of sitemap3 ist :{sitemap[3]}")
         dict = {}
         dict['id'] = sitemap[0]
         dict['name'] = sitemap[1]
@@ -95,7 +96,7 @@ def sitemaps():
             'id': uuid.uuid4().hex,
             'name': post_data.get('name'),
             'url': post_data.get('url'),
-            'read_in': post_data.get('read_in')
+            'read_in': bool(post_data.get('read_in'))
         })
         print(f"Sitemap Array is: {SITEMAPS}")
         post_sitemap(SITEMAPS)
