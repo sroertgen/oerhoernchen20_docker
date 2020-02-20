@@ -1,9 +1,14 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import create_access_token
+from datetime import datetime
 import mysql.connector as sql
 import sqlalchemy
 import pandas as pd
 import uuid
+
 
 # Set database vars
 database_host ='localhost'
@@ -14,9 +19,11 @@ database_password='oerhoernchenpw'
 # Create database engine
 engine = sqlalchemy.create_engine('mysql+mysqlconnector://{0}:{1}@{2}/{3}'.format(database_user, database_password, database_host, database_name))
 
-db_statement_create = "CREATE TABLE indices (id VARCHAR(255), name VARCHAR(255), url VARCHAR(255), read_in TINYINT(1))"
+db_statement_create_indices_table = "CREATE TABLE indices (id VARCHAR(255), name VARCHAR(255), url VARCHAR(255), read_in TINYINT(1))"
+db_statement_create_users_table = "CREATE TABLE users (user_id INT(11) unsigned NOT NULL AUTO_INCREMENT, email VARCHAR(255), password VARCHAR(255), created VARCHAR(255), CONSTRAINT users_pk PRIMARY KEY (user_id))"
 db_statement_select = 'SELECT * FROM indices'
-db_statement_check_if_exist = "SHOW TABLES LIKE 'indices'"
+db_statement_check_if_indices_exist = "SHOW TABLES LIKE 'indices'"
+db_statement_check_if_users_exist = "SHOW TABLES LIKE 'users'"
 
 db_connection = sql.connect(
     host=database_host,
@@ -25,14 +32,26 @@ db_connection = sql.connect(
     password=database_password
 )
 db_cursor = db_connection.cursor()
-db_cursor.execute(db_statement_check_if_exist)
+
+# check if indices table exists, otherwise create
+db_cursor.execute(db_statement_check_if_indices_exist)
 result = db_cursor.fetchone()
 
 if result:
-    print("DB: indices is there")
+    print("DB: table 'indices' is there")
 else:
-    db_cursor.execute(db_statement_create)
-    print("DB: indices was not there, created it.")
+    db_cursor.execute(db_statement_create_indices_table)
+    print("DB: table 'indices' was not there, created it.")
+
+# check if user table exists, otherwise create
+db_cursor.execute(db_statement_check_if_users_exist)
+result = db_cursor.fetchone()
+
+if result:
+    print("DB: table 'users' is there")
+else:
+    db_cursor.execute(db_statement_create_users_table)
+    print("DB: table 'users' was not there, created it.")
 
 def get_indices():
     SITEMAPS = []
@@ -72,9 +91,13 @@ def remove_sitemap(SITEMAPS, sitemap_id):
 # configuration
 DEBUG = True
 
+
 # instantiate the app
 app = Flask(__name__)
 app.config.from_object(__name__)
+app.config['JWT_SECRET_KEY'] = 'secret'
+bcrypt = Bcrypt(app)
+jwt = JWTManager(app)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -127,6 +150,51 @@ def single_sitemap(sitemap_id):
         post_sitemap(SITEMAPS)
         response_object['message'] = "Sitemap entfernt!"
     return jsonify(response_object)
+
+@app.route('/users/register', methods=['POST'])
+def register():
+    email = request.get_json()['email']
+    password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
+    created = datetime.utcnow()
+    db_cursor.execute("INSERT INTO users (email, password, created) VALUES ('" +
+                      str(email) + "', '" +
+                      str(password) + "','" +
+                      str(created) + "')")
+    db_connection.commit()
+
+    result = {
+        'email': email,
+        'password': password,
+        'created': created
+    }
+    print(f"Result is: {result}")
+    return jsonify({'result': result})
+
+@app.route('/users/login', methods=['POST'])
+def login():
+    email = request.get_json()['email']
+    password = request.get_json()['password']
+    result = ""
+    print(email, password)
+    db_cursor.execute("SELECT * FROM users where email = '" + str(email) + "'")
+    rv = db_cursor.fetchone()
+    print(rv)
+
+    if rv is not None:
+        if bcrypt.check_password_hash(rv[2], password):
+            access_token = create_access_token(identity = {'email': rv[1]})
+            print(f"Access Token is: {access_token}")
+            result = access_token
+        else:
+            res = jsonify({'error': 'Invalid username(email) and password'})
+            result = res, 401
+    else:
+        print("Email not in database")
+        res = jsonify({'error': 'User not in database'})
+        result = res, 401
+
+    return result
+
 
 if __name__ == '__main__':
     app.run()

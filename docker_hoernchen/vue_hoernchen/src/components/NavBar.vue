@@ -28,6 +28,7 @@
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-navbar>
+  <alert ref="alertref" :message="message"></alert>
     </b-container>
   <!-- Login Modal  -->
   <b-modal
@@ -109,6 +110,8 @@
 import ViewStats from './metadata/ViewStats.vue';
 import AddSitemap from './addSitemap/AddSitemap.vue';
 import SearchApp from './SearchApp.vue';
+import Alert from './Alert.vue'
+import axios from 'axios';
 
 export default {
   data() {
@@ -123,10 +126,41 @@ export default {
         email: '',
         password: '',
         passwordValidate: ''
-      }
+      },
+      message: ''
     }
   },
+  components: {
+    alert: Alert
+  },
   methods: {
+    initForm() {
+      this.login.email = '';
+      this.login.password = '';
+      this.register.email = '';
+      this.register.password = '';
+      this.register.passwordValidate = '';
+    },
+    loginUser(login_data) {
+      const path = 'http://localhost:5000/users/login';
+      axios.post(path, login_data)
+           .then((res) => {
+             console.log(res);
+             this.message = "Login erfolgreich!";
+             this.$refs.alertref.showAlert();
+             this.$refs.alertref.variant = "success";
+           })
+           .catch((error) => {
+             console.log(error.response);
+             if (error.response.data.error == "User not in database") {
+               this.message = "User nicht in Datenbank!";
+             } else if (error.response.data.error.includes("Invalid username")) {
+               this.message = "Email und Password stimmen nicht überein!";
+             }
+             this.$refs.alertref.showAlert();
+             this.$refs.alertref.variant = "warning";
+           });
+    },
     onShowRegister(evt) {
       console.log("Register button hit");
       evt.preventDefault();
@@ -148,6 +182,8 @@ export default {
         password: this.login.password
       };
       console.log("Login data:", login_data);
+      this.loginUser(login_data);
+      this.initForm();
     },
     onSubmitRegister(evt) {
       evt.preventDefault();
@@ -159,6 +195,18 @@ export default {
         passwordValidate: this.register.passwordValidate
       };
       console.log("Register data:", register_data);
+      this.registerUser(register_data);
+      this.initForm();
+    },
+    registerUser(register_data) {
+      const path = 'http://localhost:5000/users/register'
+      axios.post(path, register_data)
+           .then(() => {
+             console.log("User registriert!");
+           })
+           .catch(error => {
+             console.error(error);
+           });
     },
   }
 }
