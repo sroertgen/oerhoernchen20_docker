@@ -88,6 +88,7 @@
           title="Update"
           hide-footer>
           <b-form @submit="onSubmitUpdate" @reset="onResetUpdate" class="w-100">
+            <!--
             <b-form-group id="form-name-edit-group"
               label="Name:"
               label-for="form-name-edit-input">
@@ -98,6 +99,7 @@
                 placeholder="Enter Name">
               </b-form-input>
             </b-form-group>
+            -->
             <b-form-group id="form-url-edit-group"
               label="Url:"
               label-for="form-url-edit-input">
@@ -131,7 +133,6 @@ export default {
         read_in: [],
       },
       editForm: {
-        id: '',
         name: '',
         url: '',
         read_in: [],
@@ -148,15 +149,13 @@ export default {
       axios.get(path)
            .then((res) => {
              this.sitemaps = res.data.sitemaps;
-             console.log(this.sitemaps);
            })
            .catch((error) => {
-             // eslint-disable-next-line
              console.error(error);
            });
     },
     addSitemap(payload) {
-      const path = 'http://localhost:5000/sitemaps';
+      const path = 'http://localhost:5000/sitemap/' + payload.name;
       axios.post(path, payload)
            .then(() => {
              this.getSitemaps();
@@ -165,8 +164,8 @@ export default {
              this.$refs.alertref.variant = "success";
            });
     },
-    removeSitemap(sitemapID) {
-      const path = 'http://localhost:5000/sitemaps/' + sitemapID;
+    removeSitemap(payload) {
+      const path = 'http://localhost:5000/sitemap/' + payload.name;
       axios.delete(path)
            .then(() => {
              this.getSitemaps();
@@ -181,19 +180,17 @@ export default {
     },
     editSitemap(sitemap) {
       this.editForm = sitemap;
-      console.log("inside editSitemap");
     },
     initForm() {
       this.addSitemapForm.name = '';
       this.addSitemapForm.url = '';
       this.addSitemapForm.read_in = [];
-      this.editForm.id = '';
       this.editForm.name = '';
       this.editForm.url = '';
       this.editForm.read_in = [];
     },
     onDeleteSitemap(sitemap) {
-      this.removeSitemap(sitemap.id);
+      this.removeSitemap(sitemap);
     },
     onSubmit(evt) {
       evt.preventDefault();
@@ -218,11 +215,10 @@ export default {
         url: this.editForm.url,
         read_in: this.editForm.read_in,
       };
-      this.updateSitemap(payload, this.editForm.id);
+      this.updateSitemap(payload);
     },
-    updateSitemap(payload, sitemapID) {
-      console.log('SitemapID is:' + sitemapID);
-      const path = 'http://localhost:5000/sitemaps/' + sitemapID;
+    updateSitemap(payload) {
+      const path = 'http://localhost:5000/sitemap/' + payload.name;
       axios.put(path, payload)
            .then(() => {
              this.getSitemaps();

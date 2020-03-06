@@ -17,8 +17,11 @@
         :to="{name: 'AddSitemap'}"
         >Sitemap hinzufügen</router-link>
       <!-- Login-Button -->
-      <b-button variant="success" v-b-modal.login-modal>Login</b-button>
-      <b-nav-item-dropdown right v-if="loggedIn">
+      <b-button
+        v-if="!auth"
+        variant="success" 
+        v-b-modal.login-modal>Login</b-button>
+      <b-nav-item-dropdown v-if="auth" right>
         <!-- Using 'button-content' slot -->
         <template v-slot:button-content>
           <em>User</em>
@@ -36,14 +39,14 @@
     id="login-modal"
     title="Login"
     hide-footer>
-    <b-form @submit="onSubmit" @reset="onReset" class="w-100">
-      <b-form-group id="form-email-group" label="Email:" label-for="form-email-input">
+    <b-form @submit="onSubmitLogin" @reset="onReset" class="w-100">
+      <b-form-group id="form-username-group" label="Username:" label-for="form-username-input">
         <b-form-input
-          id="form-email-input"
+          id="form-username-input"
           type="text"
-          v-model="login.email"
+          v-model="login.username"
           required
-          placeholder="Email-Adresse">
+          placeholder="Username">
         </b-form-input>
       </b-form-group>
       <b-form-group id="form-password-group" label="Passwort:" label-for="form-password-input">
@@ -63,20 +66,20 @@
       </b-button-group>
     </b-form>
   </b-modal>
-  <!-- Register Modal -->>
+  <!-- Register Modal -->
   <b-modal
     ref="showRegisterModal"
     id="register-modal"
     title="Registrieren"
     hide-footer>
     <b-form @submit="onSubmitRegister" @reset="onResetRegister" class="w-100">
-      <b-form-group id="form-email-group" label="Email:" label-for="form-email-input">
+      <b-form-group id="form-username-group" label="Username:" label-for="form-username-input">
         <b-form-input
-          id="form-email-input"
+          id="form-username-input"
           type="text"
-          v-model="register.email"
+          v-model="register.username"
           required
-          placeholder="Email-Adresse">
+          placeholder="Username">
         </b-form-input>
       </b-form-group>
       <b-form-group id="form-password-group" label="Passwort:" label-for="form-password-input">
@@ -112,18 +115,19 @@ import AddSitemap from './addSitemap/AddSitemap.vue';
 import SearchApp from './SearchApp.vue';
 import Alert from './Alert.vue'
 import axios from 'axios';
+import routes from '../routes'
 
 export default {
   data() {
     return {
-      loggedIn: false,
-      showLogin: true,
+      auth: null,
+      user: '',
       login: {
-        email: '',
+        username: '',
         password: ''
       },
       register: {
-        email: '',
+        username: '',
         password: '',
         passwordValidate: ''
       },
@@ -135,34 +139,24 @@ export default {
   },
   methods: {
     initForm() {
-      this.login.email = '';
+      this.login.username = '';
       this.login.password = '';
-      this.register.email = '';
+      this.register.username = '';
       this.register.password = '';
       this.register.passwordValidate = '';
     },
-    loginUser(login_data) {
-      const path = 'http://localhost:5000/users/login';
-      axios.post(path, login_data)
-           .then((res) => {
-             console.log(res);
-             this.message = "Login erfolgreich!";
-             this.$refs.alertref.showAlert();
-             this.$refs.alertref.variant = "success";
-           })
-           .catch((error) => {
-             console.log(error.response);
-             if (error.response.data.error == "User not in database") {
-               this.message = "User nicht in Datenbank!";
-             } else if (error.response.data.error.includes("Invalid username")) {
-               this.message = "Email und Password stimmen nicht überein!";
-             }
-             this.$refs.alertref.showAlert();
-             this.$refs.alertref.variant = "warning";
-           });
+    showMessage(message_data) {
+      if (message_data == "success") {
+        this.message = "Login erfolgreich!"
+        this.$refs.alertref.showAlert();
+        this.$refs.alertref.variant = "success";
+      } else if (message_data == "unauthorized") {
+        this.message = "Unautorisierter Zugriff!"
+        this.$refs.alertref.showAlert();
+        this.$refs.alertref.variant = "warning";
+      }
     },
     onShowRegister(evt) {
-      console.log("Register button hit");
       evt.preventDefault();
       this.$refs.showLoginModal.hide();
     },
@@ -174,40 +168,39 @@ export default {
       evt.preventDefault();
       this.$refs.showRegisterModal.hide();
     },
-    onSubmit(evt) {
+    onSubmitLogin(evt) {
       evt.preventDefault();
       this.$refs.showLoginModal.hide();
       const login_data = {
-        email: this.login.email,
+        username: this.login.username,
         password: this.login.password
       };
-      console.log("Login data:", login_data);
-      this.loginUser(login_data);
+      this.$store.dispatch('login', login_data).then(() => {
+        this.auth = this.$store.state.auth;
+        this.showMessage(this.$store.state.message)
+      })
       this.initForm();
     },
     onSubmitRegister(evt) {
       evt.preventDefault();
-      // Check if passwords match
       this.$refs.showRegisterModal.hide();
       const register_data = {
-        email: this.register.email,
+        username: this.register.username,
         password: this.register.password,
-        passwordValidate: this.register.passwordValidate
       };
-      console.log("Register data:", register_data);
-      this.registerUser(register_data);
+      if (register_data.password == this.register.passwordValidate) {
+        this.registerUser(register_data);
+      } else {
+        // TODO show an error message
+        console.error("Passwords do not match");
+      }
       this.initForm();
     },
     registerUser(register_data) {
-      const path = 'http://localhost:5000/users/register'
-      axios.post(path, register_data)
-           .then(() => {
-             console.log("User registriert!");
-           })
-           .catch(error => {
-             console.error(error);
-           });
+      this.$store.dispatch('register', register_data)
     },
+  },
+  mounted() {
   }
-}
+} 
 </script>

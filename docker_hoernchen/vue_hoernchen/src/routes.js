@@ -1,3 +1,5 @@
+import store from './store';
+
 import SearchApp from './components/SearchApp.vue';
 import App from './App.vue';
 import User from './components/user/User.vue';
@@ -12,9 +14,18 @@ export const routes = [
     component: SearchApp,
 
   },
-  { path: '/user', component: User, children: [
-
-    ]
+  { 
+    path: '/user',
+    component: User,
+    beforeEnter: (to, from, next) => {
+      // check if access token is there
+      if (store.state.accessToken) {
+        next();
+      } else {
+        // redirect if not signed in
+        next('/');
+      }
+    }
   },
   {
     path: '/addentry',

@@ -1,2 +1,12 @@
-Flask
-Flask-Cors
+aniso8601==8.0.0
+Click==7.0
+Flask==1.1.1
+Flask-JWT==0.3.2
+Flask-RESTful==0.3.8
+itsdangerous==1.1.0
+Jinja2==2.11.1
+MarkupSafe==1.1.1
+PyJWT==1.4.2
+pytz==2019.3
+six==1.14.0
+Werkzeug==1.0.0

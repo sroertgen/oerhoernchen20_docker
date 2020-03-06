@@ -8,6 +8,7 @@ import { faArrowCircleUp, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import VueResource from 'vue-resource';
 import { routes } from './routes';
+import store from './store';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -27,8 +28,9 @@ const router = new VueRouter({
   mode: 'history'
 });
 
-new Vue({
+const app = new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 });
