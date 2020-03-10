@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
+import apiClient from './axios';
 
 Vue.use(Vuex);
 
@@ -10,7 +10,8 @@ export default new Vuex.Store({
     userId: null,
     user: null,
     message: "",
-    auth: null
+    auth: null,
+    liked_resources: []
   },
   mutations: {
     authUser (state, userData) {
@@ -25,12 +26,25 @@ export default new Vuex.Store({
     },
     setAuth (state, authenticated) {
       state.auth = authenticated;
-    }
+    },
+    clearAuthData (state) {
+      state.accessToken = null;
+      state.userId = null;
+      state.auth = null;
+      state.message = "logout";
+      state.liked_resources = [];
+    },
+    setLikedResources (state, liked_resources) {
+      state.liked_resources = [];
+      liked_resources.forEach(element => {
+        console.log(element.resource_id);
+        state.liked_resources.push(element.resource_id);
+      });
+    },
   },
   actions: {
     register ({commit}, authData) {
-      const path = 'http://localhost:5000/register';
-      axios.post(path, authData)
+      apiClient.auth.register(authData)
         .then((res) => {
           console.log("User registriert!");
           console.log(res);
@@ -44,9 +58,8 @@ export default new Vuex.Store({
         });
       },
     login ({commit}, authData) {
-      const path = 'http://localhost:5000/auth';
       // return is necessary for promise function
-      return axios.post(path, authData)
+      return apiClient.auth.login(authData)
         .then(res => {
           console.log(res);
           commit('authUser', {
@@ -55,6 +68,7 @@ export default new Vuex.Store({
           });
           commit('message', 'success' );
           commit('setAuth', true);
+          this.dispatch('getLikes');
         })
         .catch(error => {
           console.log(error);
@@ -63,25 +77,66 @@ export default new Vuex.Store({
           }
         });
     },
+    logout ({commit}) {
+      return commit('clearAuthData');
+    },
     fetchUser({commit, state}) {
       if (!state.accessToken) {
         return;
       }
-      const headers = {
-        'Authorization': 'JWT ' + state.accessToken
-      };
-      axios.get('http://localhost:5000/user/' + this.state.userId,
-      {headers: headers})
+      apiClient.user.fetchUser()
       .then(res => {
         console.log(res);
         commit('storeUser', res.data.user);
       })
       .catch(error => console.error(error));
     },
+    getLikes({commit, state}) {
+      if (!state.accessToken) {
+        return;
+      }
+      apiClient.likes.getLikes()
+      .then(res => {
+        console.log(res);
+        commit('setLikedResources', res.data.liked_resources);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    },
+    addLike({commit, state}, item_url) {
+      if (!state.accessToken) {
+        return;
+      }
+      apiClient.likes.addLike(item_url)
+        .then(res => {
+          console.log(res);
+          this.dispatch('getLikes');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    deleteLike({commit, state}, item_url) {
+      if (!state.accessToken) {
+        return;
+      }
+      apiClient.likes.deleteLike(item_url)
+        .then(res => {
+          console.log(res);
+          this.dispatch('getLikes');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
   },
   getters: {
     user (state) {
       return state.user;
+    },
+    liked_resources (state) {
+      return state.liked_resources;
     },
     isAuthenticated (state) {
       return state.accessToken !== null;

@@ -58,7 +58,6 @@ class Sitemap(Resource):
     connection.commit()
     connection.close()
 
-  # @jwt_required()
   def get(self, name):
     sitemap = self.find_by_name(name)
 
@@ -114,7 +113,7 @@ class Sitemap(Resource):
       try:
         self.insert(updated_sitemap)
       except:
-        # internal server error
+        # show internal server error
         return {'message': 'An error occured inserting the sitemap.'}, 500
     else:
       try:

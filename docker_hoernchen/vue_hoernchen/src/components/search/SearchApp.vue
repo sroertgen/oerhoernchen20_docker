@@ -52,7 +52,7 @@ import FilterLanguage from './FilterLanguage'
 import FilterResourceType from './FilterResourceType'
 import FilterSearch from './FilterSearch'
 import FilterSource from './FilterSource'
-import AddEntryBox from './AddEntryBox'
+import AddEntryBox from '../AddEntryBox'
 import ShowResults from './ShowResults'
 
 	export default {
@@ -80,6 +80,9 @@ import ShowResults from './ShowResults'
       getHostname: function() {
         console.log("Getting hostname to build elasticsearch url...")
         var ip = location.host;
+        if (ip == 'localhost:8080') {
+          ip = 'localhost'
+        }
         var es_url = "http://" + ip + "/es";
         console.log(es_url);
         return es_url;

@@ -21,18 +21,16 @@
         v-if="!auth"
         variant="success" 
         v-b-modal.login-modal>Login</b-button>
-      <b-nav-item-dropdown v-if="auth" right>
+      <b-nav-item-dropdown text="User" v-if="auth" right>
         <!-- Using 'button-content' slot -->
-        <template v-slot:button-content>
-          <em>User</em>
-        </template>
         <b-dropdown-item to="/user">Profile</b-dropdown-item>
-        <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+        <b-dropdown-item @click="onLogout" to="/">Sign Out</b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-navbar>
   <alert ref="alertref" :message="message"></alert>
     </b-container>
+
   <!-- Login Modal  -->
   <b-modal
     ref="showLoginModal"
@@ -66,6 +64,7 @@
       </b-button-group>
     </b-form>
   </b-modal>
+
   <!-- Register Modal -->
   <b-modal
     ref="showRegisterModal"
@@ -112,7 +111,7 @@
 <script>
 import ViewStats from './metadata/ViewStats.vue';
 import AddSitemap from './addSitemap/AddSitemap.vue';
-import SearchApp from './SearchApp.vue';
+import SearchApp from './search/SearchApp.vue';
 import Alert from './Alert.vue'
 import axios from 'axios';
 import routes from '../routes'
@@ -154,7 +153,17 @@ export default {
         this.message = "Unautorisierter Zugriff!"
         this.$refs.alertref.showAlert();
         this.$refs.alertref.variant = "warning";
+      } else if (message_data == "logout") {
+        this.message = "Logout erfolgreich!"
+        this.$refs.alertref.showAlert();
+        this.$refs.alertref.variant = "warning";
       }
+    },
+    onLogout() {
+      this.$store.dispatch('logout').then(() => {
+        this.auth = this.$store.state.auth;
+        this.showMessage(this.$store.state.message)
+      });
     },
     onShowRegister(evt) {
       evt.preventDefault();

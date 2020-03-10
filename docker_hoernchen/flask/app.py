@@ -4,6 +4,7 @@ from flask_restful import Api
 from flask_jwt import JWT
 from user import UserRegister, UserData
 from sitemaps import Sitemap, Sitemaps
+from likes import Like, Likes
 
 from security import authenticate, identity
 
@@ -32,6 +33,8 @@ api.add_resource(Sitemap, '/sitemap/<string:name>')
 api.add_resource(Sitemaps, '/sitemaps')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserData, '/user/<string:_id>')
+api.add_resource(Like, '/like')
+api.add_resource(Likes, '/likes/<string:user_id>')
 
 # Run app
 if __name__ == '__main__':

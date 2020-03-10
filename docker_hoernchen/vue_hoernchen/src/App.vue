@@ -13,7 +13,7 @@
 
 <script>
 import NavBar from './components/NavBar.vue'
-import SearchApp from './components/SearchApp'
+import SearchApp from './components/search/SearchApp'
 import ForkMe from './components/ForkMe'
 
 export default {
