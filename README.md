@@ -86,4 +86,22 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 
 ## License
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Docker-Hoernchen 2.0</span> von <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/sroertgen/oerhoernchen20_docker" property="cc:attributionName" rel="cc:attributionURL">Steffen Rörtgen (im Rahmen des Projektes JOINTLY)</a> ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Namensnennung 4.0 International Lizenz</a>.<br />Beruht auf dem Werk unter <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/programmieraffe/oerhoernchen20" rel="dct:source">https://github.com/programmieraffe/oerhoernchen20</a>.
+Just take it.
+
+<p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
+  <a rel="license"
+     href="http://creativecommons.org/publicdomain/zero/1.0/">
+    <img src="http://i.creativecommons.org/p/zero/1.0/88x31.png" style="border-style: none;" alt="CC0" />
+  </a>
+  <br />
+  To the extent possible under law,
+  <a rel="dct:publisher"
+     href="https://github.com/sroertgen/oerhoernchen20_docker">
+    <span property="dct:title">Steffen Rörtgen</span></a>
+  has waived all copyright and related or neighboring rights to
+  <span property="dct:title">Docker-Hoernchen 2.0</span>.
+This work is published from:
+<span property="vcard:Country" datatype="dct:ISO3166"
+      content="DE" about="https://github.com/sroertgen/oerhoernchen20_docker">
+  Deutschland</span>.
+</p>
