@@ -47,13 +47,10 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 - `pip3 install requirements.txt`
 - crawler can be run with `scrapy crawl hoou_spider`. It assumes that you have the MySQL database running, so you should run the `docker-compose up` command from before.
 
+
 ## Metadata
 
-- The mapping in Elasticsearch currently uses the LRMI schema as used by the HOOU [LRMI (Learning Resource Metadata Initiative)](https://www.dublincore.org/specifications/lrmi/lrmi_terms/).
-
-## ToDo's
-
-- [ ] Only import necessary Bootstrap and ReactSearch packages in Vue
+- The mapping in Elasticsearch currently uses the LRMI as used by the HOOU [LRMI (Learning Resource Metadata Initiative)](https://www.dublincore.org/specifications/lrmi/lrmi_terms/).
 
 ## Additional notices
 
