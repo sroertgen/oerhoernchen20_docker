@@ -1,6 +1,6 @@
 import sqlite3
 from flask_restful import Resource, reqparse
-from flask_jwt import jwt_required
+from flask_jwt_extended import jwt_required
 # TODO add jwt required to requests
 
 class Likes(Resource):
@@ -21,7 +21,7 @@ class Likes(Resource):
     connection.close()
     return liked_resources
 
-  @jwt_required()
+  @jwt_required
   def get(self, user_id):
     liked_resources = self.find_by_userid(user_id)
     return {'liked_resources': liked_resources}
@@ -67,7 +67,7 @@ class Like(Resource):
     return row
 
   # post new like
-  @jwt_required()
+  @jwt_required
   def post(self):
     # get user_id data and resource_id data
     data = self.parser.parse_args()
@@ -86,7 +86,7 @@ class Like(Resource):
 
 
   # delete a liked resource
-  @jwt_required()
+  @jwt_required
   def delete(self):
     print("inside delete method")
     data = self.parser.parse_args()

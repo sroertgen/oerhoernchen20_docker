@@ -1,6 +1,6 @@
 import sqlite3
 from flask_restful import Resource, reqparse
-from flask_jwt import jwt_required
+from flask_jwt_extended import jwt_required
 
 class User:
   def __init__(self, _id, username, password):
@@ -54,7 +54,7 @@ class UserData(Resource):
       if row:
         return {'user': {'username': row[1]}}
 
-  @jwt_required()
+  @jwt_required
   def get(self, _id):
     user = self.find_by_id(_id)
 

@@ -56,5 +56,11 @@ export default {
       };
       return apiClient.delete(path, {data: payload, headers});
     }
+  },
+  vocabs: {
+    getVocab(name) {
+      const path = '/vocab/' + name;
+      return apiClient.get(path);
+    }
   }
   };

@@ -1,7 +1,5 @@
 import store from './store';
-
 import SearchApp from './components/search/SearchApp.vue';
-import App from './App.vue';
 import User from './components/user/User.vue';
 import AddEntryPage from './components/metadata/AddEntryPage.vue';
 import ViewStats from './components/metadata/ViewStats.vue';
@@ -31,7 +29,6 @@ export const routes = [
     path: '/addentry',
     name: 'AddEntryPage',
     component: AddEntryPage,
-    props: true
   },
   {
     path: '/viewStats',

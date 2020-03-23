@@ -7,7 +7,7 @@
   },
   "mappings": {
     "properties": {
-      "educationaluse": {
+      "educationalUse": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -15,7 +15,7 @@
           }
         }
       },
-      "alignmenttype": {
+      "alignmentType": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -23,7 +23,7 @@
           }
         }
       },
-      "accessibilityhazard": {
+      "accessibilityHazard": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -63,7 +63,7 @@
           }
         }
       },
-      "timerequired": {
+      "timeRequired": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -71,7 +71,7 @@
           }
         }
       },
-      "accessibilityfeature": {
+      "accessibilityFeature": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -79,7 +79,7 @@
           }
         }
       },
-      "educationalframework": {
+      "educationalFramework": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -87,7 +87,7 @@
           }
         }
       },
-      "educationalrole": {
+      "educationalRole": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -95,7 +95,7 @@
           }
         }
       },
-      "targetname": {
+      "targetName": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -105,6 +105,8 @@
       },
       "date_published": {
         "type": "text",
+        "ignore_malformed": true,
+        "null_value": "NULL",
         "fields": {
           "keyword": {
             "type": "keyword"
@@ -123,7 +125,7 @@
       "lon": {
         "type": "float"
       },
-      "targeturl": {
+      "targetURL": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -131,7 +133,7 @@
           }
         }
       },
-      "targetdescription": {
+      "targetDescription": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -155,7 +157,7 @@
           }
         }
       },
-      "inlanguage": {
+      "inLanguage": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -171,7 +173,7 @@
           }
         }
       },
-      "interactivitytype": {
+      "interactiviyType": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -179,7 +181,7 @@
           }
         }
       },
-      "learningresourcetype": {
+      "learningResourceType": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -189,6 +191,8 @@
       },
       "date_scraped": {
         "type": "date",
+        "ignore_malformed": true,
+        "null_value": "NULL",
         "fields": {
           "keyword": {
             "type": "keyword"
@@ -222,7 +226,7 @@
       "@timestamp": {
         "type": "date"
       },
-      "accessibilitycontrol": {
+      "accessibilityControl": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -238,7 +242,7 @@
           }
         }
       },
-      "accessibilityapi": {
+      "accessibilityAPI": {
         "type": "text",
         "fields": {
           "keyword": {
@@ -254,7 +258,7 @@
           }
         }
       },
-      "typicalagerange": {
+      "typicalAgeRange": {
         "type": "text",
         "fields": {
           "keyword": {

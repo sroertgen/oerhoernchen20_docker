@@ -41,6 +41,7 @@
         Lizenz: {{item.license}} |
         Quelle: {{item.source}} |
         Hinzugefügt am: {{item.date_scraped}}
+        ResourceType: {{ item.learningResourceType }}
       </small>
       <!-- Like button  -->
       <div v-if="auth">
@@ -125,6 +126,9 @@ export default {
   },
   filters: {
   	subStr: function(string) {
+      if (string == null) {
+        string = " "
+      }
     	return string.substring(0,600) + '...';
         }
   },

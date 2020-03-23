@@ -2,7 +2,7 @@
   <div>
 				<multi-list
 					componentId="ResourceType"
-					dataField='learningresourcetype.keyword'
+					dataField='learningResourceType.keyword'
 					class="filter"
 					title="Lernmaterial"
 					selectAllLabel="Alle Lernmaterialien"
