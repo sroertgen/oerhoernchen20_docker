@@ -44,7 +44,7 @@ export default {
     addLike(item_url) {
       const path = "/like";
       const headers = {
-        'Authorization': 'JWT ' + store.state.accessToken
+        'Authorization': 'Bearer ' + store.state.accessToken
       };
       const payload = {
         'user_id': store.state.userId,
