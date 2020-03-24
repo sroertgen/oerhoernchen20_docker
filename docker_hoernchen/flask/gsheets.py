@@ -65,6 +65,10 @@ class Gsheet(Resource):
 
         new_entries.append(entry)
 
+    # TODO improve deletion
+
+    es.indices.delete(index="gsheets", ignore_unavailable="true")
+
     for item in new_entries:
         res = es.index(index="gsheets", id=item['id'], body=item)
         print(res)
