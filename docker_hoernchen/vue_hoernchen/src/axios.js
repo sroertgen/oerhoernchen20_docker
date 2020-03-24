@@ -27,7 +27,7 @@ export default {
   user: {
     fetchUser() {
       const headers = {
-        'Authorization': 'JWT ' + store.state.accessToken
+        'Authorization': 'Bearer ' + store.state.accessToken
       };
       return apiClient.get('/user/' + store.state.userId,
       {headers: headers});
@@ -37,7 +37,7 @@ export default {
     getLikes() {
       const path = "/likes/";
       const headers = {
-        'Authorization': 'JWT ' + store.state.accessToken
+        'Authorization': 'Bearer ' + store.state.accessToken
       };
       return apiClient.get(path + store.state.userId, {headers: headers});
     },
@@ -54,7 +54,7 @@ export default {
     },
     deleteLike(item_url) {
       const headers = {
-        'Authorization': 'JWT ' + store.state.accessToken
+        'Authorization': 'Bearer ' + store.state.accessToken
       };
       const path = "/like";
       const payload = {
