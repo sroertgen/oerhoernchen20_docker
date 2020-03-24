@@ -21,7 +21,7 @@ export default {
     },
     register(payload) {
       const path = '/register';
-      return apiClient.post(path,payload);
+      return apiClient.post(path, payload);
     },
   },
   user: {
@@ -75,5 +75,25 @@ export default {
         const path = '/gsheets';
         return apiClient.get(path);
       }
+  },
+  sitemaps: {
+    getSitemaps() {
+      const path = '/sitemaps';
+      return apiClient.get(path);
+    }
+  },
+  sitemap: {
+    postSitemap(payload) {
+      const path = '/sitemap/' + payload.name;
+      return apiClient.post(path, payload);
+    },
+    deleteSitemap(payload) {
+      const path = '/sitemap/' + payload.name;
+      return apiClient.delete(path);
+    },
+    updateSitemap(payload) {
+      const path = '/sitemap/' + payload.name;
+      return apiClient.put(path, payload);
+    }
   }
 };

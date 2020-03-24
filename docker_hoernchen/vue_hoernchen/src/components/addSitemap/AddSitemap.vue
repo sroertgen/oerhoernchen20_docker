@@ -121,6 +121,7 @@
 
 <script>
 import axios from 'axios';
+import apiClient from '../../axios'
 import Alert from '../Alert.vue'
 
 export default {
@@ -145,8 +146,7 @@ export default {
   },
   methods: {
     getSitemaps() {
-      const path = 'http://localhost:5000/sitemaps';
-      axios.get(path)
+      apiClient.sitemaps.getSitemaps()
            .then((res) => {
              this.sitemaps = res.data.sitemaps;
            })
@@ -155,8 +155,7 @@ export default {
            });
     },
     addSitemap(payload) {
-      const path = 'http://localhost:5000/sitemap/' + payload.name;
-      axios.post(path, payload)
+      apiClient.sitemap.postSitemap(payload)
            .then(() => {
              this.getSitemaps();
              this.message = "Sitemap hinzugefügt!";
@@ -165,8 +164,7 @@ export default {
            });
     },
     removeSitemap(payload) {
-      const path = 'http://localhost:5000/sitemap/' + payload.name;
-      axios.delete(path)
+      apiClient.sitemap.deleteSitemap(payload)
            .then(() => {
              this.getSitemaps();
              this.message = 'Sitemap entfernt!'
@@ -218,8 +216,7 @@ export default {
       this.updateSitemap(payload);
     },
     updateSitemap(payload) {
-      const path = 'http://localhost:5000/sitemap/' + payload.name;
-      axios.put(path, payload)
+      apiClient.sitemap.updateSitemap(payload)
            .then(() => {
              this.getSitemaps();
              this.message = "Sitemap geupdated!";
