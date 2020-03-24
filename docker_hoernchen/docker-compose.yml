@@ -59,11 +59,6 @@ services:
       dockerfile: logstash_mysql.Dockerfile
     networks:
       - elasticnet
-    # healthcheck:
-    #   test: ["CMD", "curl", "--fail", "http://elasticsearch:9200/", "-H", "'Content-Type: application/json'", "-H", "'Authorization: Basic ZWxhc3RpYzpjaGFuZ2V0aGlzaW5wcm9kdWN0aW9u'", "||", "exit 1"]
-    #   interval: 1m30s
-    #   timeout: 60s
-    #   retries: 3
     depends_on:
       - elasticsearch
       - mysql
@@ -78,15 +73,24 @@ services:
       - elasticsearch
     networks:
       - elasticnet
-    # healthcheck:
-    #   test: ["CMD", "curl", "--fail", "http://elasticsearch:9200/", "-H", "'Content-Type: application/json'", "-H", "'Authorization: Basic ZWxhc3RpYzpjaGFuZ2V0aGlzaW5wcm9kdWN0aW9u'", "||", "exit 1"]
-    #   interval: 1m30s
-    #   timeout: 60s
-    #   retries: 3
     deploy:
       restart_policy:
         condition: none
         delay: 60s
+    restart: always
+
+  flask:
+    build:
+      context: ./flask
+      dockerfile: flask.Dockerfile
+    networks:
+      - elasticnet
+    deploy:
+      restart_policy:
+        condition: none
+        delay: 60s
+    ports:
+      - "5000:5000"
     restart: always
 
   vue_hoernchen:

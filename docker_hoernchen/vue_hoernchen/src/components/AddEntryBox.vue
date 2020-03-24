@@ -100,9 +100,10 @@ export default {
         thumbnail : '',
         tags : '',
         project : '',
-        source : 'Mein Index',
+        source : 'digiLL',
         spider : '',
-        date_scraped : '',
+        // TODO insert current date in correct format
+        date_scraped : null,
       },
       options: [
           { value: null, text: 'Bitte eine Lizenz auswählen' },
@@ -131,15 +132,17 @@ export default {
       this.$http.post(this.getHostname(), this.entry, {headers: {'Authorization': 'Basic ZWxhc3RpYzpjaGFuZ2V0aGlzaW5wcm9kdWN0aW9u'}})
         .then(response => {
           console.log(response);
+          setTimeout(this.rerender, 1500);
         }, error => {
           console.log(error);
         })
-      // TODO I guess this can be improved
-      setTimeout(this.rerender, 1500);
     },
     getHostname: function() {
         console.log("Getting hostname for post data...")
         var ip = location.host;
+        if (ip == 'localhost:8080') {
+          ip = 'localhost'
+        }
         console.log("Hostname is: " + ip);
         var es_url = "http://" + ip + "/es/mein_index/_doc";
         console.log("Builded url for posting to 'mein_index' is: " + es_url);

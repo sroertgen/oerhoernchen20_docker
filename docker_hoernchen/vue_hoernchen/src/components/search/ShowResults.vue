@@ -20,7 +20,7 @@
       }"
   >
 
-<!-- Can later maybe be replaced using vue js bootstrap -->
+<!-- TODO Can later maybe be replaced using vue js bootstrap -->
 
 
 <div slot="renderItem" slot-scope="{ item }" :about="item.url">
@@ -41,7 +41,13 @@
         Lizenz: {{item.license}} |
         Quelle: {{item.source}} |
         Hinzugefügt am: {{item.date_scraped}}
+        ResourceType: {{ item.learningResourceType }}
       </small>
+      <!-- Like button  -->
+      <div v-if="auth">
+      <font-awesome-icon v-if="liked_resources.includes(item.url)" @click="deleteLike(item.url)" :icon="heartIconSolid"/>
+      <font-awesome-icon v-else @click="addLike(item.url)" :icon="heartIconRegular"/>
+      </div>
     </b-card-footer>
 
   </b-card>
@@ -74,6 +80,7 @@
     <meta property="url" :content="item.url">
     <meta property="thumbnail" :content="item.thumbnail">
     <meta property="tags" :content="item.tags">
+    <!-- TODO Get Item ID -->
   </div>
 </div>
 
@@ -82,12 +89,49 @@
 </template>
 
 <script>
+import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
+
 export default {
+  data() {
+    return {
+    }
+  },
+  computed: {
+    heartIconRegular () {
+      return farHeart
+    },
+    heartIconSolid () {
+      return fasHeart
+    },
+    liked_resources () {
+      if (!this.$store.getters.liked_resources) {
+        return false
+      }
+      return this.$store.getters.liked_resources
+    },
+    auth () {
+      return !this.$store.getters.isAuthenticated ? false : this.$store.getters.isAuthenticated
+    }
+  },
+  methods: {
+    addLike(item_url) {
+      console.log("add like function, item url is: " + item_url);
+      this.$store.dispatch('addLike', item_url)
+    },
+    deleteLike(item_url) {
+      console.log("delete function : " + item_url);
+      this.$store.dispatch('deleteLike', item_url);
+    },
+  },
   filters: {
   	subStr: function(string) {
+      if (string == null) {
+        string = " "
+      }
     	return string.substring(0,600) + '...';
         }
-  }
+  },
 }
 
 </script>

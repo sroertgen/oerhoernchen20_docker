@@ -52,13 +52,15 @@ import FilterLanguage from './FilterLanguage'
 import FilterResourceType from './FilterResourceType'
 import FilterSearch from './FilterSearch'
 import FilterSource from './FilterSource'
-import AddEntryBox from './AddEntryBox'
+import AddEntryBox from '../AddEntryBox'
 import ShowResults from './ShowResults'
+
+import apiClient from '../../axios'
 
 	export default {
     data() {
       return {
-        indices: "oer_hoou,oer_oerinfo,mein_index,oer_hhu,oer_openrub,oer_digill,oer_zoerr,oer_tibav,oer_oncampus",
+        indices: "oer_hoou,oer_oerinfo,mein_index,oer_hhu,oer_openrub,oer_digill,oer_zoerr,oer_tibav,oer_oncampus,gsheets",
         // This is used for updatign the index after adding an entry
         key: 0,
       };
@@ -80,10 +82,30 @@ import ShowResults from './ShowResults'
       getHostname: function() {
         console.log("Getting hostname to build elasticsearch url...")
         var ip = location.host;
+        if (ip == 'localhost:8080') {
+          ip = 'localhost'
+        }
         var es_url = "http://" + ip + "/es";
         console.log(es_url);
         return es_url;
       },
-    }
+      getSheetEntries() {
+        console.log('Collecting entries');
+        apiClient.gsheets.getGsheet().then((res) => {
+          console.log(res)
+          setTimeout(this.rerender, 1500);
+
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+      },
+      rerender() {
+        this.key++;
+      }
+    },
+    created() {
+      this.getSheetEntries()
+    },
   };
 </script>
