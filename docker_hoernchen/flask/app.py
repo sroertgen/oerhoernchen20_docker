@@ -7,6 +7,7 @@ from sitemaps import Sitemap, Sitemaps
 from vocabs import Vocab
 from likes import Like, Likes
 from security import Login
+from gsheets import Gsheet
 
 
 # config
@@ -31,7 +32,8 @@ api.add_resource(UserData, '/user/<string:_id>')
 api.add_resource(Like, '/like')
 api.add_resource(Likes, '/likes/<string:user_id>')
 api.add_resource(Vocab, '/vocab/<string:name>')
+api.add_resource(Gsheet, '/gsheets')
 
 # Run app
 if __name__ == '__main__':
-  app.run(port=5000, debug=True)
+  app.run(host='0.0.0.0', port=5000, debug=True)

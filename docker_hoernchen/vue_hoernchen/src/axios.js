@@ -1,8 +1,15 @@
 import axios from 'axios';
 import store from './store';
 
+// TODO this should be stored in store
+var ip = location.host;
+if (ip == 'localhost:8080') {
+  ip = 'localhost';
+}
+var url = "http://" + ip + "/flask";
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000'
+  baseURL: url
 });
 
 export default {
@@ -61,6 +68,12 @@ export default {
     getVocab(name) {
       const path = '/vocab/' + name;
       return apiClient.get(path);
-    }
+    },
+  },
+  gsheets: {
+      getGsheet() {
+        const path = '/gsheets';
+        return apiClient.get(path);
+      }
   }
-  };
+};

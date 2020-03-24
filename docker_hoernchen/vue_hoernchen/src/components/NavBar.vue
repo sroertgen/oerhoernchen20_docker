@@ -1,24 +1,40 @@
 <template>
   <div>
     <b-container>
+
   <b-navbar type="light" variant="fadeds">
+        <b-form-group>
+      <b-form-checkbox
+      v-model="showAdminStuff"
+      switch
+      >
+      Show experimental stuff!
+      </b-form-checkbox>
+    </b-form-group>
     <b-navbar-brand tag="h1" class="mb-0" to="/" >🐿️ Docker-hOERnchen 👋</b-navbar-brand>
     <b-navbar-nav class="ml-auto">
+
       <!-- Metadaten-Statistik Button -->
       <router-link
-        v-if="this.$route.path != '/viewStats'"
+        v-if="(this.$route.path != '/viewStats' && showAdminStuff)"
         tag="b-button"
         :to="{name: 'ViewStats'}"
         >Metadaten-Statistik</router-link>
       <!-- AddSitemap Button -->
       <router-link
-        v-if="this.$route.path != '/addSitemap'"
+        v-if="(this.$route.path != '/addSitemap' && showAdminStuff)"
         tag="b-button"
         :to="{name: 'AddSitemap'}"
         >Sitemap hinzufügen</router-link>
+      <!-- Link zu Metadateneditor -->
+      <router-link
+        tag="b-button"
+        :to="{name: 'AddEntryPage'}"
+      >Metadaten-Editor
+      </router-link>
       <!-- Login-Button -->
       <b-button
-        v-if="!auth"
+        v-if="(!auth && showAdminStuff)"
         variant="success" 
         v-b-modal.login-modal>Login</b-button>
       <b-nav-item-dropdown text="User" v-if="auth" right>
@@ -119,6 +135,7 @@ import routes from '../routes'
 export default {
   data() {
     return {
+      showAdminStuff: false,
       auth: null,
       user: '',
       login: {
