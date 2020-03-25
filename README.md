@@ -44,7 +44,7 @@ This **PROTOTYPE** is based on the following technologies all packed into docker
 - `cd oer_scrapy`
 - `python -m venv oerhoernchen`
 - `source oerhoernchen/bin/activate`
-- `pip3 install requirements.txt`
+- `pip3 install -r requirements.txt`
 - crawler can be run with `scrapy crawl hoou_spider`. It assumes that you have the MySQL database running, so you should run the `docker-compose up` command from before.
 
 
