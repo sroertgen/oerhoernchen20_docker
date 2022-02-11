@@ -35,7 +35,7 @@ Scrapy==1.8.0
 service-identity==18.1.0
 six==1.13.0
 traitlets==4.3.3
-Twisted==19.10.0
+Twisted==22.1.0
 w3lib==1.21.0
 wcwidth==0.1.8
 zope.interface==4.7.1
